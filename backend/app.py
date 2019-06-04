@@ -1,21 +1,35 @@
+import json
+from typing import Dict, List
+
 from flask import Flask, request
 from flaskext.mysql import MySQL
 
 app = Flask(__name__)
 mysql = MySQL()
 
-app.config['MYSQL_DATABASE_USER'] = 'j7vjOlf4zp'
-app.config['MYSQL_DATABASE_PASSWORD'] = 'pEw497Ul6k'
-app.config['MYSQL_DATABASE_DB'] = 'j7vjOlf4zp'
-app.config['MYSQL_DATABASE_HOST'] = 'remotemysql.com'
+app.config['MYSQL_DATABASE_USER'] = 'root'
+app.config['MYSQL_DATABASE_PASSWORD'] = 'root'
+app.config['MYSQL_DATABASE_HOST'] = 'db'
+app.config['MYSQL_DATABASE_PORT'] = 3306
+app.config['MYSQL_DATABASE_DB'] = 'WashroomCatalog'
 mysql.init_app(app)
 
 
-@app.route("/")
-def main():
+def getUsers():
     connect = mysql.connect()
-    return "Connected to the database"
+    cursor = connect.cursor()
+    cursor.execute('SELECT name, passwrd FROM User')
+    results = [{name: passwrd} for (name, passwrd) in cursor]
+    cursor.close()
+    connect.close()
+
+    return results
 
 
-if __name__ == "__main__":
-    app.run()
+@app.route('/')
+def index():
+    return json.dumps({'Users': getUsers()})
+
+
+if __name__ == '__main__':
+    app.run(host='0.0.0.0')

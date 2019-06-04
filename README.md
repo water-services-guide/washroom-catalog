@@ -5,17 +5,12 @@
 ### Backend
 
 ```
-$ cd backend
-$ virtualenv env
-$ source env/bin/activate
-$ pip install Flask
-$ pip install flask-mysql
-$ python app.py
+http://0.0.0.0:5000/
 ```
 
 ### Database
 ```
-$ mysql -u j7vjOlf4zp -h remotemysql.com -p
+$ mysql --host=127.0.0.1 --port=32000 -u root -p
 ```
 
 ### Frontend
