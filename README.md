@@ -10,7 +10,7 @@ $ virtualenv env
 $ source env/bin/activate
 $ pip install Flask
 $ pip install flask-mysql
-$ python hello.py
+$ python app.py
 ```
 
 ### Database
