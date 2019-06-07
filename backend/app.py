@@ -1,7 +1,6 @@
-import json
-
+import lists
 from config import configure
-from flask import Flask, request
+from flask import Flask
 from flaskext.mysql import MySQL
 
 app = Flask(__name__)
@@ -10,39 +9,14 @@ configure(app)
 mysql.init_app(app)
 
 
-def getObjects(table, attributes):
-    connect = mysql.connect()
-    cursor = connect.cursor()
-    cursor.execute('SELECT ' + ', '.join(attributes) + ' FROM ' + table)
-    result = []
-
-    for row in cursor:
-        rowObject = {}
-        for attribute, data in zip(attributes, row):
-            rowObject[attribute] = data
-        result.append(rowObject)
-
-    cursor.close()
-    connect.close()
-    return result
-
-
-def getUsers():
-    return getObjects('User', ['User_id', 'Username', 'Password'])
-
-
-def getNecessities():
-    return getObjects('Necessity', ['Necessity_id', 'Status', 'Building_id'])
-
-
 @app.route('/UserList')
 def userList():
-    return json.dumps(getUsers())
+    return lists.getUsers()
 
 
 @app.route('/NecessityList')
 def necessityList():
-    return json.dumps(getNecessities())
+    return lists.getNecessities()
 
 
 @app.route('/')
