@@ -15,30 +15,29 @@ app.config['MYSQL_DATABASE_DB'] = 'WashroomCatalog'
 mysql.init_app(app)
 
 
-def getUsers():
+def getObjects(table, attributes):
     connect = mysql.connect()
     cursor = connect.cursor()
-    cursor.execute('SELECT User_id, Username, Password FROM User')
-    results = [{'User_id': User_id,
-                'Username': Username,
-                'Password': Password} for (User_id, Username, Password,) in cursor]
+    cursor.execute('SELECT ' + ', '.join(attributes) + ' FROM ' + table)
+    result = []
+
+    for row in cursor:
+        rowObject = {}
+        for attribute, data in zip(attributes, row):
+            rowObject[attribute] = data
+        result.append(rowObject)
+
     cursor.close()
     connect.close()
+    return result
 
-    return results
+
+def getUsers():
+    return getObjects('User', ['User_id', 'Username', 'Password'])
 
 
 def getNecessities():
-    connect = mysql.connect()
-    cursor = connect.cursor()
-    cursor.execute('SELECT Necessity_id, Status, Building_id FROM Necessity')
-    results = [{'Necessity_id': Necessity_id,
-                'Status': Status,
-                'Building_id': Building_id} for (Necessity_id, Status, Building_id) in cursor]
-    cursor.close()
-    connect.close()
-
-    return results
+    return getObjects('Necessity', ['Necessity_id', 'Status', 'Building_id'])
 
 
 @app.route('/UserList')
