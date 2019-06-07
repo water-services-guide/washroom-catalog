@@ -1,17 +1,12 @@
 import json
-from typing import Dict, List
 
+from config import configure
 from flask import Flask, request
 from flaskext.mysql import MySQL
 
 app = Flask(__name__)
 mysql = MySQL()
-
-app.config['MYSQL_DATABASE_USER'] = 'root'
-app.config['MYSQL_DATABASE_PASSWORD'] = 'root'
-app.config['MYSQL_DATABASE_HOST'] = 'db'
-app.config['MYSQL_DATABASE_PORT'] = 3306
-app.config['MYSQL_DATABASE_DB'] = 'WashroomCatalog'
+configure(app)
 mysql.init_app(app)
 
 
