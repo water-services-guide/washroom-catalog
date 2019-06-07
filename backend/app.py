@@ -1,34 +1,27 @@
-import json
-from typing import Dict, List
-
-from flask import Flask, request
+import lists
+from config import configure
+from flask import Flask
 from flaskext.mysql import MySQL
 
 app = Flask(__name__)
 mysql = MySQL()
-
-app.config['MYSQL_DATABASE_USER'] = 'root'
-app.config['MYSQL_DATABASE_PASSWORD'] = 'root'
-app.config['MYSQL_DATABASE_HOST'] = 'db'
-app.config['MYSQL_DATABASE_PORT'] = 3306
-app.config['MYSQL_DATABASE_DB'] = 'WashroomCatalog'
+configure(app)
 mysql.init_app(app)
 
 
-def getUsers():
-    connect = mysql.connect()
-    cursor = connect.cursor()
-    cursor.execute('SELECT name, passwrd FROM User')
-    results = [{name: passwrd} for (name, passwrd) in cursor]
-    cursor.close()
-    connect.close()
+@app.route('/UserList')
+def userList():
+    return lists.getUsers()
 
-    return results
+
+@app.route('/NecessityList')
+def necessityList():
+    return lists.getNecessities()
 
 
 @app.route('/')
-def index():
-    return json.dumps({'Users': getUsers()})
+def main():
+    return 'Welcome to Washroom Catalog'
 
 
 if __name__ == '__main__':
