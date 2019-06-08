@@ -1,4 +1,4 @@
-# Washroom Catalog
+# Urban Survival Guide
 
 ## Getting Started
 to start the application:

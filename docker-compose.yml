@@ -14,7 +14,7 @@ services:
     ports:
       - "8080:80"
     volumes: 
-      - ./frontend:/frontend
+      - ./frontend/urban-survival-guide:/frontend/urban-survival-guide
 
   db:
     image: mysql:5.7
