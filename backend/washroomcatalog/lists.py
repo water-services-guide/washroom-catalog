@@ -1,6 +1,6 @@
 import json
 
-from app import mysql
+from washroomcatalog import mysql
 
 
 def getObjects(table, attributes):
