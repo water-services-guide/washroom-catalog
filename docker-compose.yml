@@ -9,6 +9,13 @@ services:
     volumes:
        - ./backend:/backend
 
+  frontend: 
+    build: ./frontend
+    ports:
+      - "8080:80"
+    volumes: 
+      - ./frontend:/frontend
+
   db:
     image: mysql:5.7
     ports:
