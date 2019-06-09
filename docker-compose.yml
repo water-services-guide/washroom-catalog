@@ -12,7 +12,8 @@ services:
   frontend: 
     build: ./frontend
     ports:
-      - "8080:80"
+      - "8080:3000"
+      - "8081:80"
     volumes: 
       - ./frontend/urban-survival-guide:/frontend/urban-survival-guide
 
