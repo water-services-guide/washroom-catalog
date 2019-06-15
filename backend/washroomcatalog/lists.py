@@ -47,7 +47,7 @@ def getBuildingDetails(necessity_id):
 
 def getFavouriteBuilding(user_id, necessity_id):
     return execute("""
-    SELECT *
+    SELECT TOP *
     from Necessity n, Favourite f
     WHERE n.Necessity_id = {necessity_id}
     AND n.Building_id = f.Building_id
@@ -82,6 +82,14 @@ def getShowerDetails(necessity_id):
     return execute("""
     Select * 
     from Necessity n, Shower s
+    where n.Necessity_id = s.Necessity_id
+    and n.Necessity_id = {necessity_id}
+    """.format(necessity_id=necessity_id))
+
+def getNecessityServices(necessity_id):
+    return execute("""
+    select * 
+    from Service s, Necessity n
     where n.Necessity_id = s.Necessity_id
     and n.Necessity_id = {necessity_id}
     """.format(necessity_id=necessity_id))

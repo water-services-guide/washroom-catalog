@@ -6,26 +6,45 @@ from flask import make_response, jsonify
 def userList():
     return lists.getUsers()
 
-
 @app.route('/NecessityList')
 def necessityList():
     return lists.getNecessities()
 
 @app.route('/necessity/washroom/<id>')
 def getWashroomDetails(id):
-    return "Not Implemented"
+    responseObject = generateNecessityResponseObject(id)
+    responseObject['necessity'] = lists.getWashroomDetails(id)
+    return make_response(jsonify(responseObject))
 
 @app.route('/necessity/shower/<id>')
 def getShowerDetails(id):
-    return "not Implemented"
+    responseObject = generateNecessityResponseObject(id)
+    responseObject['necessity'] = lists.getShowerDetails(id)
+    return make_response(jsonify(responseObject))
 
 @app.route('/necessity/WaterFountain/<id>')
 def getWaterFountainDetails(id):
-    return "not Implemented"
+    responseObject = generateNecessityResponseObject(id)
+    responseObject['necessity'] = lists.getWaterFountainDetails(id)
+    return make_response(jsonify(responseObject))
 
-@app.route('/necessity/<id>/comments/')
-def getComments(id):
-    return make_response(jsonify(lists.getComments(id))), 200
+# TODO: add building favourites, ratings, likes, and user in header
+def generateNecessityResponseObject(id):
+    return {
+        'building' : lists.getBuildingDetails(id)[0],
+        'maintenanceCompany' : lists.getMaintenanceCompanyInfo(id),
+        'comments' : lists.getComments(id),
+        'services' : lists.getNecessityServices(id),
+        'isLiked' : False,
+        'isBuildingFavourite' : False,
+        'rating' : 5
+    }
+
+def isLiked(result):
+    return False
+
+def isBuildingFavourite(result):
+    return False
 
 @app.route('/')
 def main(): 
