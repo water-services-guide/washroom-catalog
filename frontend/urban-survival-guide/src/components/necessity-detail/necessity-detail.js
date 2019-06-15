@@ -27,7 +27,7 @@ class NecessityDetail extends Component {
           comments: data.comments, 
           isBuildingFavourite: data.isBuildingFavourite, 
           isLiked: data.isLiked,
-          maintenaceCompany: data.maintenanceCompany,
+          maintenanceCompany: data.maintenanceCompany,
           necessity: data.necessity,
           rating: data.rating,
           services: data.services
@@ -45,7 +45,7 @@ class NecessityDetail extends Component {
             <Grid.Column>
               <h1> need a name from state</h1>
               <p>
-                <Image src={image} class="ui fluid image" />
+                <Image src={image} className="ui fluid image" />
               </p>
 
             </Grid.Column>
@@ -60,7 +60,7 @@ class NecessityDetail extends Component {
         <Grid divided='vertically'>
           <Grid.Row columns={2}>
             <Grid.Column>
-              <CommentGroup example={this.state.example}></CommentGroup>
+              <CommentGroup data={this.state.data}></CommentGroup>
             </Grid.Column>
 
             <Grid.Column>
