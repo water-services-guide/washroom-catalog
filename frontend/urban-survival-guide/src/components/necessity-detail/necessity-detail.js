@@ -12,6 +12,18 @@ class NecessityDetail extends Component {
   constructor() {
     super()
     this.state = {}
+
+    this.addComment = this.addComment.bind(this);
+  }
+
+
+  addComment(comment) {
+    this.setState({
+      data: {
+        ...this.state.data,
+        comments: [...this.state.data.comments, comment]
+      }
+    });
   }
 
   componentDidMount() {
@@ -21,6 +33,7 @@ class NecessityDetail extends Component {
     axios.get(this.API + type + '/' + id)
       .then(({ data }) => {
         console.log("we got a response" + JSON.stringify(data))
+
         this.setState({ 
           data: {
           building: data.building, 
@@ -60,7 +73,7 @@ class NecessityDetail extends Component {
         <Grid divided='vertically'>
           <Grid.Row columns={2}>
             <Grid.Column>
-              <CommentGroup data={this.state.data}></CommentGroup>
+              <CommentGroup data={this.state.data} addComment={this.addComment}></CommentGroup>
             </Grid.Column>
 
             <Grid.Column>
