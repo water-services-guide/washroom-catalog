@@ -31,7 +31,7 @@ def getWaterFountainDetails(id):
 # TODO: add building favourites, ratings, likes, and user in header
 def generateNecessityResponseObject(id):
     return {
-        'building' : lists.getBuildingDetails(id)[0],
+        'building' : lists.getBuildingDetails(id),
         'maintenanceCompany' : lists.getMaintenanceCompanyInfo(id),
         'comments' : lists.getComments(id),
         'services' : lists.getNecessityServices(id),
