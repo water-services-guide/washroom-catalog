@@ -1,12 +1,13 @@
 import React, { Component } from 'react'
-import { Divider, Grid, Image, Segment, Button } from 'semantic-ui-react'
+import { Grid, Image, Segment, Button } from 'semantic-ui-react'
 import image from '../../../images/default-image.png'
 import CommentGroup from './comment-group'
 import axios from 'axios'
+import NecessitySpecs from './necessity-spec';
 
 class NecessityDetail extends Component {
 
-  API = 'http://localhost:5000/'
+  API = 'http://localhost:5000/necessity/'
 
   constructor() {
     super()
@@ -17,12 +18,23 @@ class NecessityDetail extends Component {
     const { id, type } = this.props.match.params
 
     // fetch data for necessity detail here.
-    axios.get(this.API)
-      .then(res => {
-        console.log("we got a response" + JSON.stringify(res))
-        // this.setState({ persons });
+    axios.get(this.API + type + '/' + id)
+      .then(({ data }) => {
+        console.log("we got a response" + JSON.stringify(data))
+        this.setState({ 
+          data: {
+          building: data.building, 
+          comments: data.comments, 
+          isBuildingFavourite: data.isBuildingFavourite, 
+          isLiked: data.isLiked,
+          maintenaceCompany: data.maintenanceCompany,
+          necessity: data.necessity,
+          rating: data.rating,
+          services: data.services
+          }
+         });
       })
-    this.setState({ name: "Necessity Name" + id, example: "it works"})
+
   }
 
   render() {
@@ -31,35 +43,31 @@ class NecessityDetail extends Component {
         <Segment>
           <Grid columns={2} relaxed='very'>
             <Grid.Column>
-              <h1> {this.state.name}</h1>
+              <h1> need a name from state</h1>
               <p>
                 <Image src={image} class="ui fluid image" />
               </p>
 
             </Grid.Column>
             <Grid.Column>
-              <p>
-                Details
-              </p>
+              <NecessitySpecs data={this.state.data}></NecessitySpecs>
             </Grid.Column>
           </Grid>
-
-          <Divider vertical></Divider>
         </Segment>
 
         {/*TODO add building favourites, likes and ratings */}
 
-        <div class="ui vertically divided grid">
-          <div class="two column row">
-            <div class="column">
+        <Grid divided='vertically'>
+          <Grid.Row columns={2}>
+            <Grid.Column>
               <CommentGroup example={this.state.example}></CommentGroup>
-            </div>
-            <div class="column">
-              <Button>Report an Incident</Button>
-            </div>
-          </div>
-        </div>
+            </Grid.Column>
 
+            <Grid.Column>
+              <Button>Report an Incident</Button>
+            </Grid.Column>
+          </Grid.Row>
+        </Grid>
       </div>
     )
   }
