@@ -2,18 +2,27 @@ import React, { Component } from 'react'
 import { Divider, Grid, Image, Segment, Button } from 'semantic-ui-react'
 import image from '../../../images/default-image.png'
 import CommentGroup from './comment-group'
-
+import axios from 'axios'
 
 class NecessityDetail extends Component {
 
+  API = 'http://localhost:5000/'
+
   constructor() {
     super()
-    this.state = {name: 'default name'}
+    this.state = {}
   }
-  componentDidMount() {
-    const { id } = this.props.match.params
 
-    this.setState({ name: "Necessity Name" + id})
+  componentDidMount() {
+    const { id, type } = this.props.match.params
+
+    // fetch data for necessity detail here.
+    axios.get(this.API)
+      .then(res => {
+        console.log("we got a response" + JSON.stringify(res))
+        // this.setState({ persons });
+      })
+    this.setState({ name: "Necessity Name" + id, example: "it works"})
   }
 
   render() {
@@ -31,7 +40,7 @@ class NecessityDetail extends Component {
             <Grid.Column>
               <p>
                 Details
-        </p>
+              </p>
             </Grid.Column>
           </Grid>
 
@@ -43,7 +52,7 @@ class NecessityDetail extends Component {
         <div class="ui vertically divided grid">
           <div class="two column row">
             <div class="column">
-              <CommentGroup></CommentGroup>
+              <CommentGroup example={this.state.example}></CommentGroup>
             </div>
             <div class="column">
               <Button>Report an Incident</Button>

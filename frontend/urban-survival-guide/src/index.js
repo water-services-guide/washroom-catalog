@@ -10,7 +10,7 @@ import 'semantic-ui-css/semantic.min.css'
 const routing = (
   <Router>
     <div>
-      <Route path="/necessity/:id" component={NecessityDetail} />
+      <Route path="/necessity/:type/:id" component={NecessityDetail} />
       <Route exact path="/" component={App} />
       <Route exact path="/necessities" component={NecessityResults} />
     </div>

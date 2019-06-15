@@ -2,10 +2,10 @@ import React from 'react'
 import {Comment, Form, Header, Button} from 'semantic-ui-react'
 import image from '../../../images/default-image.png'
 
-const CommentGroup = () => (
+const CommentGroup = (props) => (
     <Comment.Group>
     <Header as='h3' dividing>
-      Comments
+      Comments {props.example}
     </Header>
 
     <Comment>

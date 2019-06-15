@@ -12,7 +12,7 @@ class NecessityResults extends Component {
         return (
             <div>
                 {/* TODO the necessity id must be dynamic */}
-                <Link to="/necessity/1">
+                <Link to="/necessity/washroom/1">
                     <Card>
                         <Image src={image} />
                         <Card.Content>
