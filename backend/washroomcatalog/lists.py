@@ -96,8 +96,32 @@ def getNecessityServices(necessity_id):
     and n.Necessity_id = {necessity_id}
     """.format(necessity_id=necessity_id))
 
-def addComment():
-    return ""
+def addComment(date, comment, user_id, necessity_id):
+    return insert("""
+    INSERT INTO
+    Comment ( Date, Comment, User_id, Necessity_id)
+    VALUES
+    ('{date}', '{comment}', {user_id}, {necessity_id})
+    """.format(
+        date=date, 
+        comment=comment, 
+        user_id=user_id, 
+        necessity_id=necessity_id))
+
+def getUserIdByUsername(username):
+    return findOne("""
+    Select * 
+    from User u
+    Where u.Username = '{username}'
+    """.format(username=username))
+
+def insert(query):
+    connection = mysql.connect()
+    cursor = connection.cursor()
+    cursor.execute(query)
+    connection.commit()  
+    cursor.close()
+    connection.close()
 
 def findOne(query):
     connection = mysql.connect()

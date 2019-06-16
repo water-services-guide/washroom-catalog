@@ -1,6 +1,7 @@
 from washroomcatalog import lists
 from washroomcatalog import app
-from flask import make_response, jsonify
+from flask import make_response, jsonify, request
+import json
 
 @app.route('/UserList')
 def userList():
@@ -27,6 +28,16 @@ def getWaterFountainDetails(id):
     responseObject = generateNecessityResponseObject(id)
     responseObject['necessity'] = lists.getWaterFountainDetails(id)
     return make_response(jsonify(responseObject))
+
+@app.route('/necessity/<id>/comments', methods=["POST"])
+def postComment(id):
+    data = json.loads(request.data)
+    username = request.headers['username']
+    date = data['date']
+    comment = data['comment']
+    user_id = lists.getUserIdByUsername(username)['User_id']
+    lists.addComment(date, comment, user_id, id)
+    return make_response(jsonify({'status': 'success'})), 200
 
 # TODO: add building favourites, ratings, likes, and user in header
 def generateNecessityResponseObject(id):
