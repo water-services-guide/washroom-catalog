@@ -3,6 +3,8 @@ from flask import jsonify
 from washroomcatalog import mysql
 import datetime
 
+# this file is full of sql commands for everything. 
+# I didn't bother to refactor it, but go ahead if you feel you need to
 def getObjects(table, attributes):
     connect = mysql.connect()
     cursor = connect.cursor()
@@ -29,7 +31,7 @@ def getNecessities():
 
 def getComments(necessity_id):
     return findAll("""
-    SELECT Username, Comment 
+    SELECT *
     FROM User u, Comment c 
     WHERE u.User_id = c.User_id 
     AND Necessity_id = {necessity_id}
@@ -93,6 +95,9 @@ def getNecessityServices(necessity_id):
     where n.Necessity_id = s.Necessity_id
     and n.Necessity_id = {necessity_id}
     """.format(necessity_id=necessity_id))
+
+def addComment():
+    return ""
 
 def findOne(query):
     connection = mysql.connect()

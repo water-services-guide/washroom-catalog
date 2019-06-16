@@ -10,6 +10,7 @@ TODO:
   - retrieve comment dates
 */
 class CommentGroup extends Component {
+  dateOptions = { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric', hour12: true, hour: "numeric", minute: "numeric"}
 
   constructor(props) {
     super(props);
@@ -17,7 +18,8 @@ class CommentGroup extends Component {
       comment: {
         // change username when we have users setup
         Username: "",
-        Comment: ""
+        Comment: "",
+        Date : ""
       }
     }
 
@@ -41,7 +43,8 @@ class CommentGroup extends Component {
     this.setState({
       comment: {
         Username: "blank for now",
-        Comment: ""
+        Comment: "",
+        Date: ""
       }
     })
   }
@@ -49,13 +52,14 @@ class CommentGroup extends Component {
   loadComments({ comments }) {
     let items = []
     for (const [index, comment] of comments.entries()) {
+      let date = new Date(comment.Date).toLocaleString("default", this.dateOptions)
       items.push(
         <Comment>
           <Comment.Avatar src={image} />
           <Comment.Content>
             <Comment.Author as='a'>{comment.Username}</Comment.Author>
             <Comment.Metadata>
-              <div>Today at 5:42PM</div>
+              <div>{date}</div>
             </Comment.Metadata>
             <Comment.Text>{comment.Comment}</Comment.Text>
           </Comment.Content>
@@ -71,7 +75,8 @@ class CommentGroup extends Component {
       ...this.state,
       comment: {
         Username: "blank name for now",
-        Comment: value
+        Comment: value,
+        Date: new Date()
       }
     });
   }
