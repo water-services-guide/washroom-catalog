@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import { Comment, Form, Header, Button } from 'semantic-ui-react'
 import image from '../../../images/default-image.png'
-
-
+import axios from 'axios'
 /*
 TODO:
   - submit comments to the server
@@ -37,6 +36,25 @@ class CommentGroup extends Component {
   onSubmit(e) {
     e.preventDefault();
     // use axios post the comment to the server here
+    let {Comment, Date} = this.state.comment
+
+    // TODO: modify config to reflect correct user
+    let config = {
+      headers: {
+        username: 'User1',
+      },
+      "crossDomain": true
+    }
+    axios.post(this.props.API, {
+      date: Date.toLocaleString('en-US'),
+      comment: Comment
+    }, config)
+    .then(function (response) {
+      console.log(response);
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
 
     this.props.addComment(this.state.comment) 
 
@@ -54,7 +72,7 @@ class CommentGroup extends Component {
     for (const [index, comment] of comments.entries()) {
       let date = new Date(comment.Date).toLocaleString("default", this.dateOptions)
       items.push(
-        <Comment>
+        <Comment key={index}>
           <Comment.Avatar src={image} />
           <Comment.Content>
             <Comment.Author as='a'>{comment.Username}</Comment.Author>
@@ -70,7 +88,7 @@ class CommentGroup extends Component {
   }
 
   handleFieldChange(event) {
-    const { value, name } = event.target;
+    const { value } = event.target;
     this.setState({
       ...this.state,
       comment: {

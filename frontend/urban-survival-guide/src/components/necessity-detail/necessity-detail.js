@@ -8,9 +8,12 @@ import NecessitySpecs from './necessity-spec';
 class NecessityDetail extends Component {
 
   API = 'http://localhost:5000/necessity/'
+  necessityId = ""
+  necessityType = ""
 
-  constructor() {
-    super()
+
+  constructor(props) {
+    super(props)
     this.state = {}
 
     this.addComment = this.addComment.bind(this);
@@ -28,6 +31,8 @@ class NecessityDetail extends Component {
 
   componentDidMount() {
     const { id, type } = this.props.match.params
+    this.necessityId = id
+    this.necessityType = type
 
     // fetch data for necessity detail here.
     axios.get(this.API + type + '/' + id)
@@ -73,7 +78,7 @@ class NecessityDetail extends Component {
         <Grid divided='vertically'>
           <Grid.Row columns={2}>
             <Grid.Column>
-              <CommentGroup data={this.state.data} addComment={this.addComment}></CommentGroup>
+              <CommentGroup data={this.state.data} addComment={this.addComment} API={this.API + this.necessityId + "/comments"}></CommentGroup>
             </Grid.Column>
 
             <Grid.Column>
