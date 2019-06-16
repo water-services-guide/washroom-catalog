@@ -4,6 +4,7 @@ import image from '../../../images/default-image.png'
 import CommentGroup from './comment-group'
 import axios from 'axios'
 import NecessitySpecs from './necessity-spec';
+import IncidentReport from './incident-report';
 
 class NecessityDetail extends Component {
 
@@ -14,8 +15,18 @@ class NecessityDetail extends Component {
 
   constructor(props) {
     super(props)
-    this.state = {}
-
+    this.state = {
+      data: {
+        building: {},
+        comments: [],
+        isBuildingFavourite: false,
+        isLiked: false,
+        maintenanceCompany: {},
+        necessity: {},
+        rating: 0,
+        services: []
+      }
+    }
     this.addComment = this.addComment.bind(this);
   }
 
@@ -33,24 +44,20 @@ class NecessityDetail extends Component {
     const { id, type } = this.props.match.params
     this.necessityId = id
     this.necessityType = type
-
-    // fetch data for necessity detail here.
     axios.get(this.API + type + '/' + id)
       .then(({ data }) => {
-        console.log("we got a response" + JSON.stringify(data))
-
-        this.setState({ 
+        this.setState({
           data: {
-          building: data.building, 
-          comments: data.comments, 
-          isBuildingFavourite: data.isBuildingFavourite, 
-          isLiked: data.isLiked,
-          maintenanceCompany: data.maintenanceCompany,
-          necessity: data.necessity,
-          rating: data.rating,
-          services: data.services
+            building: data.building,
+            comments: data.comments,
+            isBuildingFavourite: data.isBuildingFavourite,
+            isLiked: data.isLiked,
+            maintenanceCompany: data.maintenanceCompany,
+            necessity: data.necessity,
+            rating: data.rating,
+            services: data.services
           }
-         });
+        });
       })
 
   }
@@ -61,7 +68,7 @@ class NecessityDetail extends Component {
         <Segment>
           <Grid columns={2} relaxed='very'>
             <Grid.Column>
-              <h1> need a name from state</h1>
+              <h1> {this.state.data.necessity.name} </h1>
               <p>
                 <Image src={image} className="ui fluid image" />
               </p>
@@ -73,7 +80,7 @@ class NecessityDetail extends Component {
           </Grid>
         </Segment>
 
-        {/*TODO add building favourites, likes and ratings */}
+        {/*TODO add building favourites, likes and ratingss */}
 
         <Grid divided='vertically'>
           <Grid.Row columns={2}>
@@ -82,7 +89,7 @@ class NecessityDetail extends Component {
             </Grid.Column>
 
             <Grid.Column>
-              <Button>Report an Incident</Button>
+              <IncidentReport></IncidentReport>
             </Grid.Column>
           </Grid.Row>
         </Grid>

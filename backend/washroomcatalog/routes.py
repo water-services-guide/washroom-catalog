@@ -64,7 +64,7 @@ def isLiked(result):
     return False
 
 def isBuildingFavourite(result):
-    return False
+    return not result
 
 @app.route('/')
 def main(): 

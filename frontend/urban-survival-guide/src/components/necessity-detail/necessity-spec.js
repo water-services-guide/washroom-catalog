@@ -13,15 +13,16 @@ class NecessitySpecs extends Component {
         }  
     }
 
-    render(props) {
-        let {building, isBuildingFavourite, isLiked, maintenanceCompany, necessity, services} = this.props.data
-        console.log( "again: " + JSON.stringify(this.props))
-        
+    getServiceList(services) {
         let items = []
         for (const [index, value] of services.entries()) {
-            items.push(<p key={index}>{value.Name} - {value.State}</p> )
-          }
-        
+            items.push(<p key={index}>{value.Name} - {value.State}</p> )  }
+        return items
+    }
+
+    render(props) {
+        let {building, isBuildingFavourite, isLiked, maintenanceCompany, necessity, services} = this.props.data        
+        let items = this.getServiceList(services)
         return (
             <div>
                 <h1>Details:</h1>
