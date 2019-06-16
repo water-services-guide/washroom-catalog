@@ -71,8 +71,9 @@ CREATE TABLE Importance(
 
 CREATE TABLE Incident(
   Incident_id int AUTO_INCREMENT,
+  Subject varchar(155) NOT NULL,
   Report_text varchar(1000) NOT NULL,
-  Date datetime,
+  Date datetime,    
   Severity int,
   User_id int,
   Necessity_id int NOT NULL,
@@ -221,13 +222,13 @@ VALUES
   (5, 3);
 
 INSERT INTO
-  Incident (Report_text, Date, Severity, User_id, Necessity_id)
+  Incident (Subject, Report_text, Date, Severity, User_id, Necessity_id)
 VALUES
-  ('There’s blood everywhere', '2019-04-13 02:52:41', 2, 2, 1),
-  ('The urinal is clogged', '2019-05-19 22:12:11', 3, 3, 2),
-  ('There’s no toilet paper', '2019-02-14 08:11:43', 2, 5, 1),
-  ('I’m locked in', '2019-01-22 14:12:22', 1, 5, 3),
-  ('There’s no running water', '2019-02-02 12:11:23', 1, 1, 2);
+  ("There's blood everywhere", 'There’s blood everywhere', '2019-04-13 02:52:41', 2, 2, 1),
+  ("Severely Clogged Toilets", 'The urinal is clogged', '2019-05-19 22:12:11', 3, 3, 2),
+  ('There is absolutely no toilet paper', 'no toilet paper!', '2019-02-14 08:11:43', 2, 5, 1),
+  ("I'm locked in", 'I’m locked in, someone help', '2019-01-22 14:12:22', 1, 5, 3),
+  ("No running water", 'There’s no running water', '2019-02-02 12:11:23', 1, 1, 2);
 
 INSERT INTO
   UserLike (User_id, Necessity_id)

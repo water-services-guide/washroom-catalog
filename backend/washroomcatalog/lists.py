@@ -108,6 +108,14 @@ def addComment(date, comment, user_id, necessity_id):
         user_id=user_id, 
         necessity_id=necessity_id))
 
+def addIncidentReport(subject, text, date, severity, user_id, necessity_id):
+    return insert("""
+    INSERT INTO
+    Incident (Subject, Report_text, Date, Severity, User_id, Necessity_id)
+    VALUES 
+  ('{subject}', '{text}', '{date}', {severity}, {user_id}, {necessity_id})
+    """.format(subject=subject, text=text, date=date, severity=severity, user_id=user_id, necessity_id=necessity_id))
+
 def getUserIdByUsername(username):
     return findOne("""
     Select * 

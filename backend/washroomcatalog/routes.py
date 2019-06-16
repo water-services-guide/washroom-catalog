@@ -44,6 +44,21 @@ def postComment(id):
     response = make_response(jsonify({'status': 'success'}))
     return response
 
+@app.route('/necessity/<id>/incidentreport', methods=["POST", "OPTIONS"])
+@cross_origin()
+def postIncidentReport(id):
+    print(str(id))
+    data = json.loads(request.data)
+    username = request.headers['username']
+    date = formatDate(data['date'])
+    severity = data['severity']
+    subject = data['subject']
+    content = data['content']
+    user_id = lists.getUserIdByUsername(username)['User_id']
+    lists.addIncidentReport(subject, content, date, severity, user_id, id)
+    response = make_response(jsonify({'status': 'success'}))
+    return response
+
 # TODO: add building favourites, ratings, likes, and user in header
 def generateNecessityResponseObject(id):
     return {

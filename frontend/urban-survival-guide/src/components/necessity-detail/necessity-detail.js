@@ -89,7 +89,7 @@ class NecessityDetail extends Component {
             </Grid.Column>
 
             <Grid.Column>
-              <IncidentReport></IncidentReport>
+              <IncidentReport API={this.API + this.necessityId + "/incidentreport"}></IncidentReport>
             </Grid.Column>
           </Grid.Row>
         </Grid>
