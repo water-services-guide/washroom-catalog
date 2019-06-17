@@ -145,6 +145,14 @@ def getUserIdByUsername(username):
     Where u.Username = '{username}'
     """.format(username=username))
 
+def findUserLike(user_id, necessity_id):
+    return findOne("""
+    select * 
+    from UserLike 
+    where User_id = {user_id}
+    and Necessity_id = {necessity_id}
+    """.format(user_id=user_id, necessity_id=necessity_id))
+
 def insert(query):
     connection = mysql.connect()
     cursor = connection.cursor()

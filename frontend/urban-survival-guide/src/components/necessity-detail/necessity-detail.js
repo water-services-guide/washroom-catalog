@@ -2,12 +2,12 @@ import React, { Component } from 'react'
 import { Grid, Image, Segment, Rating, Button, Icon } from 'semantic-ui-react'
 import image from '../../../images/default-image.png'
 import CommentGroup from './comment-group'
-import axios from 'axios'
 import NecessitySpecs from './necessity-spec';
 import IncidentReport from './incident-report';
+import {getNecessityDetails} from '../../backend-client'
 
 class NecessityDetail extends Component {
-
+  API = "http://localhost:5000/"
   necessityId = ""
   necessityType = ""
 
@@ -45,26 +45,24 @@ class NecessityDetail extends Component {
     });
   }
 
-  componentDidMount() {
+  async componentDidMount() {
     const { id, type } = this.props.match.params
     this.necessityId = id
     this.necessityType = type
-    axios.get(this.API + type + '/' + id)
-      .then(({ data }) => {
-        this.setState({
-          data: {
-            building: data.building,
-            comments: data.comments,
-            isBuildingFavourite: data.isBuildingFavourite,
-            isLiked: data.isLiked,
-            maintenanceCompany: data.maintenanceCompany,
-            necessity: data.necessity,
-            rating: data.rating,
-            services: data.services
-          }
-        });
-      })
 
+    let data = await getNecessityDetails(type, id)
+    this.setState({
+      data: {
+        building: data.building,
+        comments: data.comments,
+        isBuildingFavourite: data.isBuildingFavourite,
+        isLiked: data.isLiked,
+        maintenanceCompany: data.maintenanceCompany,
+        necessity: data.necessity,
+        rating: data.rating,
+        services: data.services
+      }
+    })
   }
 
   handleRate(e, { rating, maxRating }) {

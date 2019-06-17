@@ -80,7 +80,6 @@ class CommentGroup extends Component {
   }
 
   render() {
-    console.log(JSON.stringify(this.props.data))
     let comments = this.loadComments(this.props.data)
     return (
       <Comment.Group>
@@ -88,8 +87,7 @@ class CommentGroup extends Component {
           Comments
       </Header>
         {comments}
-        <Form reply 
-        onSubmit={this.onSubmit}>
+        <Form reply onSubmit={this.onSubmit}>
           <Form.TextArea
             onChange={this.handleFieldChange}
             value={this.state.comment.Comment}
