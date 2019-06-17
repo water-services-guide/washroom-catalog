@@ -1,6 +1,6 @@
 version: "2"
 services:
-  app:
+  backend:
     build: ./backend
     links:
       - db
@@ -9,12 +9,12 @@ services:
     volumes:
        - ./backend:/backend
 
-  frontend: 
+  frontend:
     build: ./frontend
     ports:
       - "8080:3000"
       - "8081:80"
-    volumes: 
+    volumes:
       - ./frontend/urban-survival-guide:/frontend/urban-survival-guide
 
   db:
