@@ -22,3 +22,26 @@ export function postComment(Comment, date, necessity_id) {
             });
     }
 
+export function postIncidentReport(date, content, severity, subject, necessity_id) {
+
+    let config = {
+        headers: {
+            // retrieve user from localstorage
+            username: 'User1',
+        },
+        "crossDomain": true
+    }   
+    axios.post(endpoint + "necessity/" +necessity_id + "/incidentreport", {
+        date: date.toLocaleString('en-US'),
+        content: content,
+        severity: severity,
+        subject: subject
+    }, config)
+        .then(function (response) {
+            console.log(response);
+        })
+        .catch(function (error) {
+            console.log(error);
+        });
+}
+

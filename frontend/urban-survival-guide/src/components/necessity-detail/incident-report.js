@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Button, Modal, Form, Select } from 'semantic-ui-react'
-import axios from 'axios'
+import { postIncidentReport } from '../../backend-client'
 
 
 class IncidentReport extends Component {
@@ -20,28 +20,8 @@ class IncidentReport extends Component {
     }
 
     close = () => {
-        console.log("the subject: " + this.state.subject)
-        let config = {
-            headers: {
-                // retrieve user from localstorage
-                username: 'User1',
-            },
-            "crossDomain": true
-        }
-        let date = new Date()
-        axios.post(this.props.API, {
-            date: date.toLocaleString('en-US'),
-            content: this.state.content,
-            severity: this.state.severity,
-            subject: this.state.subject
-        }, config)
-            .then(function (response) {
-                console.log(response);
-            })
-            .catch(function (error) {
-                console.log(error);
-            });
-
+        let {content, severity, subject} = this.state
+        postIncidentReport(new Date(), content, severity, subject, this.props.necessity_id)
         this.setState({
             ...this.state,
             open: false,

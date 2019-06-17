@@ -8,7 +8,6 @@ import IncidentReport from './incident-report';
 
 class NecessityDetail extends Component {
 
-  API = 'http://localhost:5000/necessity/'
   necessityId = ""
   necessityType = ""
 
@@ -113,11 +112,11 @@ class NecessityDetail extends Component {
         <Grid divided='vertically'>
           <Grid.Row columns={2}>
             <Grid.Column>
-              <CommentGroup data={this.state.data} addComment={this.addComment} API={this.API + this.necessityId + "/comments"}></CommentGroup>
+              <CommentGroup data={this.state.data} addComment={this.addComment} necessity_id={this.necessityId}></CommentGroup>
             </Grid.Column>
 
             <Grid.Column>
-              <IncidentReport API={this.API + this.necessityId + "/incidentreport"}></IncidentReport>
+              <IncidentReport necessity_id={this.necessityId}></IncidentReport>
             </Grid.Column>
           </Grid.Row>
         </Grid>

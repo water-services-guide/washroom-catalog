@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Comment, Form, Header, Button } from 'semantic-ui-react'
 import image from '../../../images/default-image.png'
-import axios from 'axios'
 import { postComment } from '../../backend-client'
 /*
 TODO:
@@ -22,7 +21,6 @@ class CommentGroup extends Component {
         Date : ""
       }
     }
-
     this.handleFieldChange = this.handleFieldChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
   }
@@ -36,31 +34,10 @@ class CommentGroup extends Component {
 
   onSubmit(e) {
     e.preventDefault();
-    // use axios post the comment to the server here
     let {Comment, Date} = this.state.comment
-
-    postComment(Comment, Date, 1)
-
+    postComment(Comment, Date, this.props.necessity_id)
     // TODO: modify config to reflect correct user
-    // let config = {
-    //   headers: {
-    //     username: 'User1',
-    //   },
-    //   "crossDomain": true
-    // }
-    // axios.post(this.props.API, {
-    //   date: Date.toLocaleString('en-US'),
-    //   comment: Comment
-    // }, config)
-    // .then(function (response) {
-    //   console.log(response);
-    // })
-    // .catch(function (error) {
-    //   console.log(error);
-    // });
-
     this.props.addComment(this.state.comment) 
-
     this.setState({
       comment: {
         Username: "blank for now",
