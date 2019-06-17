@@ -5,7 +5,7 @@ import HomeContent from './home-content/home-content';
 class Home extends Component {
   render() {
     return (
-      <div className="home">
+      <div className='home'>
         <HomeContent />
       </div>
     );

@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import './necessity-icon.css'
 import {Image, Card} from 'semantic-ui-react';
 import image from '../../../../../images/default-image.png';
 import {Link} from 'react-router-dom';

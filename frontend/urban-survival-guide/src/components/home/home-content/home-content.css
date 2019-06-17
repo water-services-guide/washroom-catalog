@@ -4,6 +4,6 @@
     margin-left: 3%;
 }
 
-.header-text {
-    font-family: "Segoe UI"
+.ui.grid.home-content-grid {
+    margin-top: 14px;
 }

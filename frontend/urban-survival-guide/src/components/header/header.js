@@ -5,7 +5,7 @@ class Nav extends Component {
 
     render() {
         return (
-            <Menu pointing color='teal' inverted>
+            <Menu borderless pointing color='teal' inverted>
                 <Menu.Item>
 
                     <Header size='huge'>
