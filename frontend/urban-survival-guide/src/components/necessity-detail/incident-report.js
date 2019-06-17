@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Button, Modal, Form, Dropdown, Select } from 'semantic-ui-react'
+import { Button, Modal, Form, Select } from 'semantic-ui-react'
 import axios from 'axios'
 
 
@@ -86,7 +86,7 @@ class IncidentReport extends Component {
         const { open, closeOnEscape, closeOnDimmerClick } = this.state
         return (
             <div>
-                <Button onClick={this.closeConfigShow(false, true)}>Report an Incident</Button>
+                <Button onClick={this.closeConfigShow(false, true)} negative>Report an Incident</Button>
 
                 <Modal
                     open={open}

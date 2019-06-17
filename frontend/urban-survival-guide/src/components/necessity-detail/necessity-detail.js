@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Grid, Image, Segment, Button } from 'semantic-ui-react'
+import { Grid, Image, Segment, Rating, Button, Icon } from 'semantic-ui-react'
 import image from '../../../images/default-image.png'
 import CommentGroup from './comment-group'
 import axios from 'axios'
@@ -25,9 +25,15 @@ class NecessityDetail extends Component {
         necessity: {},
         rating: 0,
         services: []
-      }
+      },
+      rating: 0,
+      maxRating: 0,
+      active: false
+
     }
     this.addComment = this.addComment.bind(this);
+    this.handleLikeButton = this.handleLikeButton.bind(this);
+    this.handleRate = this.handleRate.bind(this);
   }
 
 
@@ -62,7 +68,19 @@ class NecessityDetail extends Component {
 
   }
 
+  handleRate(e, { rating, maxRating }) {
+    this.setState({
+      rating: rating,
+      maxRating: maxRating
+    })
+  }
+
+  handleLikeButton() {
+    this.setState(prevState => ({ active: !prevState.active }))
+  }
+
   render() {
+    const { active } = this.state
     return (
       <div>
         <Segment>
@@ -73,6 +91,16 @@ class NecessityDetail extends Component {
                 <Image src={image} className="ui fluid image" />
               </p>
 
+              <Rating maxRating={5}
+                onRate={this.handleRate}
+                clearable size='massive' />
+
+              <Button toggle active={active} 
+              onClick={this.handleLikeButton}
+              floated='right'
+              >
+                <Icon name='thumbs up outline' size='large' />  Like
+              </Button>
             </Grid.Column>
             <Grid.Column>
               <NecessitySpecs data={this.state.data}></NecessitySpecs>
