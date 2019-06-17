@@ -8,20 +8,38 @@ from washroomcatalog import mysql
 def getUsers():
     return findAll('SELECT * FROM User')
 
-def getNecessities(ids = []):
-    if (len(ids) == 0):
-        return findAll('SELECT * FROM Necessity')
-    else:
-        ids = ids.split(',')
-        query = '''
-        SELECT * FROM Necessity
-        WHERE'''
-        for i in range(0, len(ids)):
-            query += ' Necessity_id = ' + str(ids[i])
-            if (i < len(ids) - 1):
-                query += ' OR '
+def getNecessities(options):
+    query = 'SELECT * FROM Necessity'
+    queryOptions = []
 
-        return findAll(query)
+    if options['id'] != None:
+        queryOption = ''
+        nids = options['id'].split(',')
+
+        for nid in nids:
+            queryOption += ' Necessity_id = ' + str(nid)
+            if (nids.index(nid) < len(nids) - 1):
+                queryOption += ' OR '
+        queryOptions.append(queryOption)
+
+    if options['status'] != None:
+        queryOption = ''
+        statuses = options['status'].split(',')
+
+        for status in statuses:
+            queryOption += ' Status = \'' + str(status) + '\''
+            if (statuses.index(status) < len(statuses) - 1):
+                queryOption += ' OR '
+        queryOptions.append(queryOption)
+
+    if len(queryOptions) > 0:
+        query += ' WHERE '
+        for queryOption in queryOptions:
+            query += '(' + queryOption + ')'
+            if (queryOptions.index(queryOption) < len(queryOptions) - 1):
+                query += ' AND '
+
+    return findAll(query)
 
 def getComments(necessity_id):
     return findAll("""

@@ -13,10 +13,11 @@ def getUserList():
 
 @app.route('/NecessityList', methods=['GET'])
 def getNecessityList():
-    idsList = request.args.get('id')
-    if (idsList != None):
-            return make_response(jsonify(lists.getNecessities(idsList)))
-    return make_response(jsonify(lists.getNecessities()))
+    options = {
+        'id': request.args.get('id'),
+        'status': request.args.get('status')
+    }
+    return make_response(jsonify(lists.getNecessities(options)))
 
 @app.route('/NecessityType/<id>')
 def getNecessityType(id):
