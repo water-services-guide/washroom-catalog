@@ -18,10 +18,10 @@ class NecessitySearch extends Component {
     this.gotoNecessity = this.gotoNecessity.bind(this)
   }
 
-  searchNecessities(ids) {
+  searchNecessities() {
     let query = 'http://localhost:5000/NecessityList?'
-    if (ids != null && ids != '')
-      query += 'id=' + ids.toString() + '&'
+    if (this.state.nids != '')
+      query += 'id=' + this.state.nids.toString() + '&'
 
     if (this.state.status.length > 0)
       query += 'status=' + this.state.status.join(',') + '&'
@@ -115,10 +115,6 @@ class NecessitySearch extends Component {
                   <span>Find necessities</span>
                 </div>
 
-                <div>
-                  <button onClick={() => this.searchNecessities(null)}>Search All</button>
-                </div>
-
                 <hr></hr>
 
                 <span>Status:</span>
@@ -136,7 +132,7 @@ class NecessitySearch extends Component {
                 <span>Necessity IDs:</span>
                 <input placeholder="ex: 1,4,10" onChange={(event) => {
                   this.setState({nids: event.target.value})}}/>
-                <button onClick={() => this.searchNecessities(this.state.nids)}>Search</button>
+                <button onClick={() => this.searchNecessities()}>Search</button>
 
               </div>
             </Grid.Column>
