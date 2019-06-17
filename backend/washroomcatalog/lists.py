@@ -62,9 +62,8 @@ def getComments(necessity_id):
 def getBuildingDetails(necessity_id):
     return findOne("""
     SELECT *
-    from Building b, PostalCode po, Necessity n, Favourite f
+    from Building b, PostalCode po, Necessity n
     where b.Postal_code = po.Postal_code
-    AND f.Building_id = b.Building_id
     AND n.Building_id = b.Building_id
     AND n.Necessity_id = {necessity_id}
     """.format(necessity_id=necessity_id))
@@ -145,13 +144,83 @@ def getUserIdByUsername(username):
     Where u.Username = '{username}'
     """.format(username=username))
 
+def findFavouriteBuilding(user_id, necessity_id):
+    return findOne("""
+    Select * 
+    from Favourite f, Necessity n
+    where f.Building_id = n.Building_id 
+    and f.User_id = {user_id}
+    and n.Necessity_id = {necessity_id}
+    """.format(user_id=user_id, necessity_id=necessity_id))
+
+def addFavouriteBuilding(user_id, building_id):
+    return insert("""
+    INSERT INTO
+    Favourite (Building_id, User_id)
+    VALUES
+    ({building_id}, {user_id})
+    """.format(building_id=building_id, user_id=user_id))
+
+def removeFavouriteBuilding(user_id, building_id):
+    return insert("""
+    Delete
+    From Favourite
+    where User_id = {user_id}
+    and Building_id = {building_id}
+    """.format(user_id=user_id,building_id=building_id))
+
 def findUserLike(user_id, necessity_id):
     return findOne("""
     select * 
-    from UserLike 
-    where User_id = {user_id}
-    and Necessity_id = {necessity_id}
+    from UserLike u
+    where u.User_id = {user_id}
+    and u.Necessity_id = {necessity_id}
     """.format(user_id=user_id, necessity_id=necessity_id))
+
+def addUserLike(user_id, necessity_id):
+    return insert("""
+    INSERT INTO
+    UserLike (User_id, Necessity_id)
+    VALUES
+    ({user_id}, {necessity_id})
+    """.format(user_id=user_id, necessity_id=necessity_id))
+
+def removeUserLike(user_id, necessity_id):
+    return insert("""
+    Delete 
+    From UserLike
+    Where User_id = {user_id}
+    And Necessity_id = {necessity_id}
+    """.format(user_id=user_id, necessity_id=necessity_id))
+
+def getUserRating(user_id, necessity_id):
+    return findOne("""
+    Select * 
+    from Rating r
+    where r.User_id = {user_id}
+    and r.Necessity_id = {necessity_id}
+    """.format(user_id=user_id,necessity_id=necessity_id))
+
+def addRating(date, rating, user_id, necessity_id):
+    return insert("""
+    INSERT INTO
+    Rating (Date, Rating, User_id, Necessity_id)
+    VALUES  
+    ('{date}', {rating}, {user_id}, {necessity_id})
+    """.format(date=date, rating=rating, user_id=user_id, necessity_id=necessity_id))
+
+def updateRating(date, rating, user_id, necessity_id):
+    return insert("""
+    update Rating set Rating = {rating}, Date = '{date}' where User_id = {user_id} and Necessity_id = {necessity_id}
+    """.format(date=date,user_id=user_id, necessity_id=necessity_id, rating=rating))
+
+
+def getAvgRating(necessity_id):
+    return findOne("""
+    Select AVG(r.Rating) as avg
+    from Rating r
+    where r.Necessity_id = {necessity_id}
+    """.format(necessity_id=necessity_id))
 
 def insert(query):
     connection = mysql.connect()

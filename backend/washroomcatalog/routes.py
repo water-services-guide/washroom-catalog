@@ -6,7 +6,7 @@ from flask import jsonify, make_response, request
 from flask_cors import cross_origin
 from washroomcatalog import app, lists
 
-
+#what should we on cascade delete
 @app.route('/UserList')
 def getUserList():
     return make_response(jsonify(lists.getUsers()))
@@ -81,7 +81,52 @@ def postIncidentReport(id):
     response = make_response(jsonify({'status': 'success'}))
     return response
 
-# TODO: add building favourites, ratings, likes, and user in header
+
+@app.route('/necessity/<necessity_id>/like', methods=["POST", "OPTIONS"])
+@cross_origin()
+def toggleUserLike(necessity_id):
+    user_id = getUserId(request.headers['username'])
+    like = 'liked'
+    il = isLiked(lists.findUserLike(user_id, necessity_id))
+    if il:
+        lists.removeUserLike(user_id, necessity_id)
+        like = 'unliked'
+    else:
+        lists.addUserLike(user_id, necessity_id)
+        like = 'liked'
+    response = make_response(jsonify({'status': like}))
+    return make_response(jsonify(lists.findUserLike(user_id, necessity_id)))
+
+@app.route('/necessity/<necessity_id>/favouritebuilding', methods=["POST", "OPTIONS"])
+@cross_origin()
+def toggleFavouriteBuilding(necessity_id):
+    user_id = getUserId(request.headers['username'])
+    fb = lists.findFavouriteBuilding(user_id, necessity_id)
+    if isBuildingFavourite(fb):
+        building_id = fb['Building_id']
+        lists.removeFavouriteBuilding(user_id, building_id)
+    else:
+        building_id = lists.getBuildingDetails(necessity_id)['Building_id']
+        lists.addFavouriteBuilding(user_id, building_id)
+    response = make_response(jsonify(lists.findFavouriteBuilding(user_id, necessity_id)))
+    return response
+
+
+@app.route('/necessity/<necessity_id>/rating', methods=["POST", "OPTIONS"])
+@cross_origin()   
+def rating(necessity_id):
+    data = json.loads(request.data)
+    date = formatDate(data['date'])
+    rating = data['rating']
+    user_id = getUserId(request.headers['username'])
+    userRating = lists.getUserRating(user_id, necessity_id)
+    if ratingExists(userRating):
+        lists.updateRating(date, rating, user_id, necessity_id)
+    else:
+        lists.addRating(date, rating, user_id, necessity_id)
+    return make_response(jsonify(lists.getUserRating(user_id, necessity_id)))
+
+
 def generateNecessityResponseObject(user_id, necessity_id):
     return {
         'building' : lists.getBuildingDetails(necessity_id),
@@ -89,8 +134,8 @@ def generateNecessityResponseObject(user_id, necessity_id):
         'comments' : lists.getComments(necessity_id),
         'services' : lists.getNecessityServices(necessity_id),
         'isLiked' : isLiked(lists.findUserLike( user_id, necessity_id)),
-        'isBuildingFavourite' : False,
-        'rating' : 5
+        'isBuildingFavourite' : isBuildingFavourite(lists.findFavouriteBuilding(user_id, necessity_id)),
+        'rating' : lists.getAvgRating(necessity_id)['avg']
     }
 
 def getUserId(username):
@@ -101,10 +146,13 @@ def formatDate(date):
     return dt
 
 def isLiked(result):
-    return False
+    return not not result
 
 def isBuildingFavourite(result):
-    return not result
+    return not not result
+
+def ratingExists(result):
+    return not not result
 
 @app.route('/')
 def main():
