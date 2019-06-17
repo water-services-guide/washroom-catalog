@@ -1,6 +1,6 @@
 import axios from 'axios';
 import React, { Component } from 'react';
-import { Button, Card, Grid } from 'semantic-ui-react';
+import { Button, Card, Checkbox, Grid } from 'semantic-ui-react';
 
 
 class NecessitySearch extends Component {
@@ -10,7 +10,8 @@ class NecessitySearch extends Component {
     super();
     this.state = {
         necessities: [],
-        nids: '1'
+        nids: '',
+        status: []
     };
 
     this.searchNecessities = this.searchNecessities.bind(this)
@@ -18,14 +19,15 @@ class NecessitySearch extends Component {
   }
 
   searchNecessities(ids) {
-    console.log(ids)
-    let query = 'http://localhost:5000/NecessityList'
-    if (ids != null)
-      query += '?id=' + ids.toString()
+    let query = 'http://localhost:5000/NecessityList?'
+    if (ids != null && ids != '')
+      query += 'id=' + ids.toString() + '&'
+
+    if (this.state.status.length > 0)
+      query += 'status=' + this.state.status.join(',') + '&'
 
     axios.get(query)
       .then(response => {
-        console.log(response.data)
         var necessities = []
         for (let necessity of response.data) {
           necessities.push(necessity)
@@ -35,6 +37,19 @@ class NecessitySearch extends Component {
           necessities: necessities
         });
       })
+  }
+
+  toggleStatus(status) {
+    var statuses = [...this.state.status]
+
+    if (statuses.includes(status))
+      statuses.splice(statuses.indexOf(status), 1)
+    else
+      statuses.push(status)
+
+    this.setState({
+      status: statuses
+    });
   }
 
   gotoNecessity(id) {
@@ -65,7 +80,7 @@ class NecessitySearch extends Component {
     `}
     </style>
         <Grid relaxed>
-            <Grid.Column width={12}>
+            <Grid.Column width={11}>
               <Grid.Row>
               <div className="results">
                 <p>Search Result</p>
@@ -94,22 +109,35 @@ class NecessitySearch extends Component {
             </Grid.Column>
 
 
-            <Grid.Column width={4}>
+            <Grid.Column width={5}>
               <div className="search">
                 <div>
                   <span>Find necessities</span>
                 </div>
 
                 <div>
-                  <input placeholder="Necessity IDs" onChange={(event) => {
-                    this.setState({nids: event.target.value})}}/>
-                </div>
-
-                <button onClick={() => this.searchNecessities(this.state.nids)}>Search</button>
-
-                <div>
                   <button onClick={() => this.searchNecessities(null)}>Search All</button>
                 </div>
+
+                <hr></hr>
+
+                <span>Status:</span>
+                <br></br>
+                <Checkbox label='open' onChange={() => {
+                  this.toggleStatus('open')}}/>
+                <br></br>
+                <Checkbox label='closed' onChange={() => {
+                  this.toggleStatus('closed')}}/>
+                <br></br>
+                <Checkbox label='broken' onChange={() => {
+                  this.toggleStatus('broken')}}/>
+                <br></br>
+
+                <span>Necessity IDs:</span>
+                <input placeholder="ex: 1,4,10" onChange={(event) => {
+                  this.setState({nids: event.target.value})}}/>
+                <button onClick={() => this.searchNecessities(this.state.nids)}>Search</button>
+
               </div>
             </Grid.Column>
         </Grid>
