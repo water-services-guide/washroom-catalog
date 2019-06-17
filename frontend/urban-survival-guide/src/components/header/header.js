@@ -7,8 +7,13 @@ class Nav extends Component {
         return (
             <Menu pointing color='teal' inverted>
                 <Menu.Item>
-                    <Header size='huge'>Urban Survival Guide 🚽</Header>
+
+                    <Header size='huge'>
+                            Urban Survival Guide 🚽
+                    </Header>
+
                 </Menu.Item>
+
 
                 <Menu.Item position='right'>
                     <Button >Sign Up</Button>

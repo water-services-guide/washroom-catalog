@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Comment, Form, Header, Button } from 'semantic-ui-react'
 import image from '../../../images/default-image.png'
 import axios from 'axios'
+import { postComment } from '../../backend-client'
 /*
 TODO:
   - submit comments to the server
@@ -38,23 +39,25 @@ class CommentGroup extends Component {
     // use axios post the comment to the server here
     let {Comment, Date} = this.state.comment
 
+    postComment(Comment, Date, 1)
+
     // TODO: modify config to reflect correct user
-    let config = {
-      headers: {
-        username: 'User1',
-      },
-      "crossDomain": true
-    }
-    axios.post(this.props.API, {
-      date: Date.toLocaleString('en-US'),
-      comment: Comment
-    }, config)
-    .then(function (response) {
-      console.log(response);
-    })
-    .catch(function (error) {
-      console.log(error);
-    });
+    // let config = {
+    //   headers: {
+    //     username: 'User1',
+    //   },
+    //   "crossDomain": true
+    // }
+    // axios.post(this.props.API, {
+    //   date: Date.toLocaleString('en-US'),
+    //   comment: Comment
+    // }, config)
+    // .then(function (response) {
+    //   console.log(response);
+    // })
+    // .catch(function (error) {
+    //   console.log(error);
+    // });
 
     this.props.addComment(this.state.comment) 
 
@@ -100,6 +103,7 @@ class CommentGroup extends Component {
   }
 
   render() {
+    console.log(JSON.stringify(this.props.data))
     let comments = this.loadComments(this.props.data)
     return (
       <Comment.Group>

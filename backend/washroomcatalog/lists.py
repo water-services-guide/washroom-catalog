@@ -53,7 +53,7 @@ def getNecessities(options):
 
 def getComments(necessity_id):
     return findAll("""
-    SELECT Username, Comment
+    SELECT *
     FROM User u, Comment c
     WHERE u.User_id = c.User_id
     AND Necessity_id = {necessity_id}

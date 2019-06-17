@@ -52,7 +52,8 @@ class NecessitySpecs extends Component {
                 </Segment>
                 <Segment vertical>
                     <span><h3>Building Information
-                        <Button floated='right'
+                        <Button 
+                            floated='right'
                             active={this.state.active}
                             size='big'
                             color={this.state.active ? 'pink' : null}
