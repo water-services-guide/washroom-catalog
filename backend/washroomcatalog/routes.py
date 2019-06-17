@@ -15,7 +15,8 @@ def getUserList():
 def getNecessityList():
     options = {
         'id': request.args.get('id'),
-        'status': request.args.get('status')
+        'status': request.args.get('status'),
+        'type': request.args.get('type')
     }
     return make_response(jsonify(lists.getNecessities(options)))
 

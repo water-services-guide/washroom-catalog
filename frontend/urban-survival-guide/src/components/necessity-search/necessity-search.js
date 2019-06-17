@@ -11,7 +11,8 @@ class NecessitySearch extends Component {
     this.state = {
         necessities: [],
         nids: '',
-        status: []
+        status: [],
+        type: []
     };
 
     this.searchNecessities = this.searchNecessities.bind(this)
@@ -25,6 +26,9 @@ class NecessitySearch extends Component {
 
     if (this.state.status.length > 0)
       query += 'status=' + this.state.status.join(',') + '&'
+
+    if (this.state.type.length > 0)
+      query += 'type=' + this.state.type.join(',') + '&'
 
     axios.get(query)
       .then(response => {
@@ -49,6 +53,19 @@ class NecessitySearch extends Component {
 
     this.setState({
       status: statuses
+    });
+  }
+
+  toggleType(type) {
+    var types = [...this.state.type]
+
+    if (types.includes(type))
+      types.splice(types.indexOf(type), 1)
+    else
+      types.push(type)
+
+    this.setState({
+      type: types
     });
   }
 
@@ -127,6 +144,18 @@ class NecessitySearch extends Component {
                 <br></br>
                 <Checkbox label='broken' onChange={() => {
                   this.toggleStatus('broken')}}/>
+                <br></br>
+
+                <span>Type:</span>
+                <br></br>
+                <Checkbox label='washroom' onChange={() => {
+                  this.toggleType('Washroom')}}/>
+                <br></br>
+                <Checkbox label='shower' onChange={() => {
+                  this.toggleType('Shower')}}/>
+                <br></br>
+                <Checkbox label='fountain' onChange={() => {
+                  this.toggleType('WaterFountain')}}/>
                 <br></br>
 
                 <span>Necessity IDs:</span>

@@ -32,6 +32,16 @@ def getNecessities(options):
                 queryOption += ' OR '
         queryOptions.append(queryOption)
 
+    if options['type'] != None:
+        queryOption = ''
+        types = options['type'].split(',')
+
+        for ntype in types:
+            queryOption += 'Necessity_id IN (SELECT Necessity_id FROM ' + str(ntype) + ')'
+            if (types.index(ntype) < len(types) - 1):
+                queryOption += ' OR '
+        queryOptions.append(queryOption)
+
     if len(queryOptions) > 0:
         query += ' WHERE '
         for queryOption in queryOptions:
