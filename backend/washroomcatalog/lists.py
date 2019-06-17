@@ -1,45 +1,39 @@
-import json
-from flask import jsonify
-from washroomcatalog import mysql
 import datetime
+import json
 
-# this file is full of sql commands for everything. 
-# I didn't bother to refactor it, but go ahead if you feel you need to
-def getObjects(table, attributes):
-    connect = mysql.connect()
-    cursor = connect.cursor()
-    cursor.execute('SELECT ' + ', '.join(attributes) + ' FROM ' + table)
-    result = []
-
-    for row in cursor:
-        rowObject = {}
-        for attribute, data in zip(attributes, row):
-            rowObject[attribute] = data
-        result.append(rowObject)
-
-    cursor.close()
-    connect.close()
-    return json.dumps(result)
+from flask import jsonify, make_response
+from washroomcatalog import mysql
 
 
 def getUsers():
-    return getObjects('User', ['User_id', 'Username', 'Password'])
+    return findAll('SELECT * FROM User')
 
+def getNecessities(ids = []):
+    if (len(ids) == 0):
+        return findAll('SELECT * FROM Necessity')
+    else:
+        ids = ids.split(',')
+        query = '''
+        SELECT * FROM Necessity
+        WHERE'''
+        for i in range(0, len(ids)):
+            query += ' Necessity_id = ' + str(ids[i])
+            if (i < len(ids) - 1):
+                query += ' OR '
 
-def getNecessities():
-    return getObjects('Necessity', ['Necessity_id', 'Status', 'Building_id'])
+        return findAll(query)
 
 def getComments(necessity_id):
     return findAll("""
-    SELECT *
-    FROM User u, Comment c 
-    WHERE u.User_id = c.User_id 
+    SELECT Username, Comment
+    FROM User u, Comment c
+    WHERE u.User_id = c.User_id
     AND Necessity_id = {necessity_id}
     """.format(necessity_id=necessity_id))
 
 def getBuildingDetails(necessity_id):
     return findOne("""
-    SELECT * 
+    SELECT *
     from Building b, PostalCode po, Necessity n, Favourite f
     where b.Postal_code = po.Postal_code
     AND f.Building_id = b.Building_id
@@ -58,7 +52,7 @@ def getFavouriteBuilding(user_id, necessity_id):
 
 def getMaintenanceCompanyInfo(necessity_id):
     return findOne("""
-    SELECT * 
+    SELECT *
     from MaintainenceCompany m, MaintainedBy mb
     WHERE m.Company_id = mb.Company_id
     AND mb.Necessity_id = {necessity_id}
@@ -66,7 +60,7 @@ def getMaintenanceCompanyInfo(necessity_id):
 
 def getWashroomDetails(necessity_id):
     return findOne("""
-    SELECT * 
+    SELECT *
     from Necessity n, Washroom w
     Where n.Necessity_id=w.Necessity_id
     and n.Necessity_id = {necessity_id}
@@ -74,7 +68,7 @@ def getWashroomDetails(necessity_id):
 
 def getWaterFountainDetails(necessity_id):
     return findOne("""
-    Select * 
+    Select *
     from Necessity n, WaterFountain w
     where n.Necessity_id = w.Necessity_id
     and n.Necessity_id = {necessity_id}
@@ -82,7 +76,7 @@ def getWaterFountainDetails(necessity_id):
 
 def getShowerDetails(necessity_id):
     return findOne("""
-    Select * 
+    Select *
     from Necessity n, Shower s
     where n.Necessity_id = s.Necessity_id
     and n.Necessity_id = {necessity_id}
@@ -90,7 +84,7 @@ def getShowerDetails(necessity_id):
 
 def getNecessityServices(necessity_id):
     return findAll("""
-    select * 
+    select *
     from Service s, Necessity n
     where n.Necessity_id = s.Necessity_id
     and n.Necessity_id = {necessity_id}
@@ -103,22 +97,22 @@ def addComment(date, comment, user_id, necessity_id):
     VALUES
     ('{date}', '{comment}', {user_id}, {necessity_id})
     """.format(
-        date=date, 
-        comment=comment, 
-        user_id=user_id, 
+        date=date,
+        comment=comment,
+        user_id=user_id,
         necessity_id=necessity_id))
 
 def addIncidentReport(subject, text, date, severity, user_id, necessity_id):
     return insert("""
     INSERT INTO
     Incident (Subject, Report_text, Date, Severity, User_id, Necessity_id)
-    VALUES 
+    VALUES
   ('{subject}', '{text}', '{date}', {severity}, {user_id}, {necessity_id})
     """.format(subject=subject, text=text, date=date, severity=severity, user_id=user_id, necessity_id=necessity_id))
 
 def getUserIdByUsername(username):
     return findOne("""
-    Select * 
+    Select *
     from User u
     Where u.Username = '{username}'
     """.format(username=username))
@@ -127,16 +121,16 @@ def insert(query):
     connection = mysql.connect()
     cursor = connection.cursor()
     cursor.execute(query)
-    connection.commit()  
+    connection.commit()
     cursor.close()
     connection.close()
 
 def findOne(query):
     connection = mysql.connect()
     cursor = connection.cursor()
-    cursor.execute(query)   
+    cursor.execute(query)
     result = cursor.fetchone()
-    if result is None: 
+    if result is None:
         result = {}
     cursor.close()
     connection.close()
@@ -145,7 +139,7 @@ def findOne(query):
 def findAll(query):
     connection = mysql.connect()
     cursor = connection.cursor()
-    cursor.execute(query)   
+    cursor.execute(query)
     result = cursor.fetchall()
     cursor.close()
     connection.close()

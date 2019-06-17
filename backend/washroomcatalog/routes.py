@@ -1,18 +1,31 @@
-from washroomcatalog import lists
-from washroomcatalog import app
-from flask import make_response, jsonify, request
-import json
-from flask_cors import cross_origin
-from dateutil import parser
 import datetime
+import json
+
+from dateutil import parser
+from flask import jsonify, make_response, request
+from flask_cors import cross_origin
+from washroomcatalog import app, lists
+
 
 @app.route('/UserList')
-def userList():
-    return lists.getUsers()
+def getUserList():
+    return make_response(jsonify(lists.getUsers()))
 
-@app.route('/NecessityList')
-def necessityList():
-    return lists.getNecessities()
+@app.route('/NecessityList', methods=['GET'])
+def getNecessityList():
+    idsList = request.args.get('id')
+    if (idsList != None):
+            return make_response(jsonify(lists.getNecessities(idsList)))
+    return make_response(jsonify(lists.getNecessities()))
+
+@app.route('/NecessityType/<id>')
+def getNecessityType(id):
+    if (len(lists.getWashroomDetails(id)) > 0):
+        return 'washroom'
+    elif (len(lists.getShowerDetails(id)) > 0):
+        return 'shower'
+    elif (len(lists.getWaterFountainDetails(id)) > 0):
+        return 'WaterFountain'
 
 @app.route('/necessity/washroom/<id>')
 def getWashroomDetails(id):
@@ -82,7 +95,7 @@ def isBuildingFavourite(result):
     return not result
 
 @app.route('/')
-def main(): 
+def main():
     response_object = {
         'status': 'ok'
     }
