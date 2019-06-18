@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { Menu, Button, Header } from 'semantic-ui-react'
 import { Link } from 'react-router-dom';
+import { Button, Header, Menu } from 'semantic-ui-react';
 
 class Nav extends Component {
     constructor(props){
@@ -24,6 +24,9 @@ class Nav extends Component {
                 </Menu.Item>
 
                 <Menu.Item position='right'>
+                    <Button as={Link} to='/home'>Home</Button>
+                    <Button as={Link} to='/search'>Search</Button>
+
                     <Button
                         as={Link} to='/admin'
                         disabled={this.state.username !== "admin"}
@@ -31,7 +34,7 @@ class Nav extends Component {
                 </Menu.Item>
 
                 <Menu.Item position='right'>
-                    <Button >Sign Up</Button>
+                <Button as={Link} to='/'>Admin</Button>
                 </Menu.Item>
             </Menu>
         );
