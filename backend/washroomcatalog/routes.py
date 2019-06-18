@@ -143,7 +143,8 @@ def generateNecessityResponseObject(user_id, necessity_id):
         'services' : lists.getNecessityServices(necessity_id),
         'isLiked' : isLiked(lists.findUserLike( user_id, necessity_id)),
         'isBuildingFavourite' : isBuildingFavourite(lists.findFavouriteBuilding(user_id, necessity_id)),
-        'rating' : lists.getAvgRating(necessity_id)['avg']
+        'rating' : getRatingIfExists(lists.getUserRating(user_id, necessity_id)),
+        'avgRating' : lists.getAvgRating(necessity_id)['avg']
     }
 
 def getUserId(username):
@@ -158,6 +159,12 @@ def isLiked(result):
 
 def isBuildingFavourite(result):
     return not not result
+
+def getRatingIfExists(result):
+    if not result:
+        return 0
+    else:
+        return result['Rating']
 
 def ratingExists(result):
     return not not result
