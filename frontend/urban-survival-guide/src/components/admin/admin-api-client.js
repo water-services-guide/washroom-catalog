@@ -31,32 +31,45 @@ export function updateNecessityStatus(nid, status){
 
 
 export function projectNecessityAttribute(attribute){
-    axios.get(endpoint + "necessity/" + attribute, {}, config)
-    .then(function (response) {
-        console.log(response);
-    })
-    .catch(function (error) {
-        console.log(error);
-    });
+    return new Promise(async function(resolve, reject) {
+        axios.get(endpoint + "necessity/" + attribute, {}, config)
+        .then(function (response) {
+            console.log(response);
+            resolve(response.data)
+        })
+        .catch(function (error) {
+            console.log(error);
+            reject(error)
+        });
+      });
 }
 
 
 export function getAllAverageUserRatings(attribute){
-    axios.get(endpoint + "avgRatings" + attribute, {}, config)
-    .then(function (response) {
-        console.log(response);
-    })
-    .catch(function (error) {
-        console.log(error);
-    });
+
+    return new Promise(async function(resolve, reject) {
+        axios.get(endpoint + "avgRatings" + attribute, {}, config)
+        .then(function (response) {
+            console.log(response);
+            resolve(response.data)
+        })
+        .catch(function (error) {
+            console.log(error);
+            reject(error)
+        });
+      });
 }
 
 export function join(attribute){
-    axios.post(endpoint + "necessity/join", {table: attribute}, config)
-    .then(function (response) {
-        console.log(response);
-    })
-    .catch(function (error) {
-        console.log(error);
-    });
+    return new Promise(async function(resolve, reject) {
+        axios.post(endpoint + "necessity/join", {table: attribute}, config)
+        .then(function (response) {
+            console.log(response);
+            resolve(response.data)
+        })
+        .catch(function (error) {
+            console.log(error);
+            reject(error)
+        });
+      });
 }

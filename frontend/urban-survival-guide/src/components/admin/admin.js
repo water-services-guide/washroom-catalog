@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
-import { Form, Segment, Grid, Divider } from 'semantic-ui-react'
+import { Form, Grid } from 'semantic-ui-react'
 import { deleteUser, updateNecessityStatus, projectNecessityAttribute, getAllAverageUserRatings, join } from './admin-api-client'
+import ReactTable from 'react-table'
+import 'react-table/react-table.css'
 
 class Admin extends Component {
     constructor(props) {
@@ -11,7 +13,9 @@ class Admin extends Component {
             up_status: "",
             col_att: "",
             join_att: "",
-            cat_att: ""
+            cat_att: "",
+            data: [],
+            columns: []
         }
 
         this.deleteUserHandler = this.deleteUserHandler.bind(this)
@@ -75,11 +79,18 @@ class Admin extends Component {
         })
     }
 
-    onSubmitProjection(e, o) {
-        projectNecessityAttribute(this.state.col_att)
+    // updates table state
+    async onSubmitProjection(e, o) {
+        let result = await projectNecessityAttribute(this.state.col_att)
+        let cols = []
+        if (result.length > 0) {
+            cols = this.getColumnHeaders(result)
+        }
         this.setState({
             ...this.state,
-            col_att: ""
+            col_att: "",
+            data: result,
+            columns: cols
         })
     }
 
@@ -90,11 +101,18 @@ class Admin extends Component {
         })
     }
 
-    onSubmitJoin(e, o) {
-        join(this.state.join_att)
+    // updates table state
+    async onSubmitJoin(e, o) {
+        let result = await join(this.state.join_att)
+        let cols = []
+        if (result.length > 0) {
+            cols = this.getColumnHeaders(result)
+        }
         this.setState({
             ...this.state,
-            join_att: ""
+            join_att: "",
+            data: result,
+            columns: cols
         })
     }
 
@@ -105,12 +123,30 @@ class Admin extends Component {
         })
     }
 
-    onSubmitCategories(e, o) {
-        getAllAverageUserRatings(this.state.cat_att)
+    // updates table state
+    async onSubmitCategories(e, o) {
+        let result = await getAllAverageUserRatings(this.state.cat_att)
+        let cols = []
+        if (result.length > 0) {
+            cols = this.getColumnHeaders(result)
+        }
         this.setState({
             ...this.state,
-            cat_att: ""
+            cat_att: "",
+            data: result,
+            columns: cols
         })
+    }
+
+
+    getColumnHeaders(result) {
+        let headers = []
+        result = result[0]
+        const keys = Object.keys(result)
+        for(let i of keys ) {
+            headers.push({Header: i, accessor: i})
+        }
+        return headers;
     }
 
     render() {
@@ -186,12 +222,15 @@ class Admin extends Component {
 
 
                     </Grid.Column>
-                    <Grid.Column  width={4}>
-                        other side here
+                    <Grid.Column floated='left' width={4}>
+                        <ReactTable
+                            data={this.state.data}
+                            columns={this.state.columns}
+                            showPagination={false}
+                            minRows={6}
+                        />
                     </Grid.Column>
                 </Grid>
-
-
             </div>
         );
     }

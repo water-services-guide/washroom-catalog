@@ -290,7 +290,7 @@ def joinNecessity(table, join_condition):
 
 def getAvgRatingByAllUsers():
     return findAll("""
-    select u.User_id, Avg(r.rating)
+    select u.User_id, Avg(r.rating) as avgRating
     from User u, Rating r
     where u.User_Id = r.User_id
     group by u.User_id
