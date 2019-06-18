@@ -42,6 +42,17 @@ def getNecessities(options):
                 queryOption += ' OR '
         queryOptions.append(queryOption)
 
+    if options['sex'] != None:
+        queryOption = ''
+        sex = options['sex'].split(',')
+        if len(sex) == 1:
+            queryOption += '''Necessity_id IN (SELECT Necessity_id FROM Washroom WHERE Sex=\'{s}\')
+                OR Necessity_id IN (SELECT Necessity_id FROM Shower WHERE Sex=\'{s}\')
+                OR Necessity_id IN (SELECT Necessity_id FROM WaterFountain)
+                '''.format(s=sex[0])
+            queryOptions.append(queryOption)
+
+
     if len(queryOptions) > 0:
         query += ' WHERE '
         for queryOption in queryOptions:
@@ -154,9 +165,9 @@ def getUserIdByUsername(username):
 
 def findFavouriteBuilding(user_id, necessity_id):
     return findOne("""
-    Select * 
+    Select *
     from Favourite f, Necessity n
-    where f.Building_id = n.Building_id 
+    where f.Building_id = n.Building_id
     and f.User_id = {user_id}
     and n.Necessity_id = {necessity_id}
     """.format(user_id=user_id, necessity_id=necessity_id))
@@ -179,7 +190,7 @@ def removeFavouriteBuilding(user_id, building_id):
 
 def findUserLike(user_id, necessity_id):
     return findOne("""
-    select * 
+    select *
     from UserLike u
     where u.User_id = {user_id}
     and u.Necessity_id = {necessity_id}
@@ -195,7 +206,7 @@ def addUserLike(user_id, necessity_id):
 
 def removeUserLike(user_id, necessity_id):
     return insert("""
-    Delete 
+    Delete
     From UserLike
     Where User_id = {user_id}
     And Necessity_id = {necessity_id}
@@ -203,7 +214,7 @@ def removeUserLike(user_id, necessity_id):
 
 def getUserRating(user_id, necessity_id):
     return findOne("""
-    Select * 
+    Select *
     from Rating r
     where r.User_id = {user_id}
     and r.Necessity_id = {necessity_id}
@@ -213,7 +224,7 @@ def addRating(date, rating, user_id, necessity_id):
     return insert("""
     INSERT INTO
     Rating (Date, Rating, User_id, Necessity_id)
-    VALUES  
+    VALUES
     ('{date}', {rating}, {user_id}, {necessity_id})
     """.format(date=date, rating=rating, user_id=user_id, necessity_id=necessity_id))
 

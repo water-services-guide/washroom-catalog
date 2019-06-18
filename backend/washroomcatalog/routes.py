@@ -6,6 +6,7 @@ from flask import jsonify, make_response, request
 from flask_cors import cross_origin
 from washroomcatalog import app, lists
 
+
 #what should we on cascade delete
 @app.route('/UserList')
 def getUserList():
@@ -16,7 +17,8 @@ def getNecessityList():
     options = {
         'id': request.args.get('id'),
         'status': request.args.get('status'),
-        'type': request.args.get('type')
+        'type': request.args.get('type'),
+        'sex': request.args.get('sex')
     }
     return make_response(jsonify(lists.getNecessities(options)))
 
@@ -113,7 +115,7 @@ def toggleFavouriteBuilding(necessity_id):
 
 
 @app.route('/necessity/<necessity_id>/rating', methods=["POST", "OPTIONS"])
-@cross_origin()   
+@cross_origin()
 def rating(necessity_id):
     data = json.loads(request.data)
     date = formatDate(data['date'])
