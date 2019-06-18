@@ -12,7 +12,8 @@ class NecessitySearch extends Component {
         necessities: [],
         nids: '',
         status: [],
-        type: []
+        type: [],
+        sex: []
     };
 
     this.searchNecessities = this.searchNecessities.bind(this)
@@ -29,6 +30,9 @@ class NecessitySearch extends Component {
 
     if (this.state.type.length > 0)
       query += 'type=' + this.state.type.join(',') + '&'
+
+    if (this.state.sex.length > 0)
+      query += 'sex=' + this.state.sex.join(',') + '&'
 
     axios.get(query)
       .then(response => {
@@ -66,6 +70,19 @@ class NecessitySearch extends Component {
 
     this.setState({
       type: types
+    });
+  }
+
+  toggleSex(sex) {
+    var sexes = [...this.state.sex]
+
+    if (sexes.includes(sex))
+      sexes.splice(sexes.indexOf(sex), 1)
+    else
+      sexes.push(sex)
+
+    this.setState({
+      sex: sexes
     });
   }
 
@@ -156,6 +173,15 @@ class NecessitySearch extends Component {
                 <br></br>
                 <Checkbox label='fountain' onChange={() => {
                   this.toggleType('WaterFountain')}}/>
+                <br></br>
+
+                <span>Sex:</span>
+                <br></br>
+                <Checkbox label='female' onChange={() => {
+                  this.toggleSex('f')}}/>
+                <br></br>
+                <Checkbox label='male' onChange={() => {
+                  this.toggleSex('m')}}/>
                 <br></br>
 
                 <span>Necessity IDs:</span>
