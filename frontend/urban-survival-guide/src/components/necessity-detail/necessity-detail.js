@@ -49,7 +49,6 @@ class NecessityDetail extends Component {
     this.necessityType = type
 
     let data = await getNecessityDetails(type, id)
-    console.log("up a level for building fav: " + data.isBuildingFavourite)
     this.setState({
       ...this.state,
       data: {
@@ -60,7 +59,7 @@ class NecessityDetail extends Component {
         maintenanceCompany: data.maintenanceCompany,
         necessity: data.necessity,
         rating: data.rating,
-    /// add average rating
+        avgRating: data.avgRating,
         services: data.services
       }
     })

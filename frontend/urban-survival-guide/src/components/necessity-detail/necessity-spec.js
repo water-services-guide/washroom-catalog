@@ -22,8 +22,7 @@ class NecessitySpecs extends Component {
     }
 
     componentDidUpdate(prevProps, prevState) {
-        console.log("update!!!!: " + this.props.data.isBuildingFavourite)
-        if (prevState.isBuildingFavourite != this.props.data.isBuildingFavourite)
+        if (prevState.isBuildingFavourite !== this.props.data.isBuildingFavourite)
             this.setState({
                 isBuildingFavourite: this.props.data.isBuildingFavourite
             })
@@ -45,8 +44,7 @@ class NecessitySpecs extends Component {
 
 
     render(props) {
-        let { building, isBuildingFavourite, maintenanceCompany, necessity, services } = this.props.data
-        console.log("is it favourite in necessity spce render? " + isBuildingFavourite)
+        let { building, maintenanceCompany, necessity, services, avgRating } = this.props.data
         let items = this.getServiceList(services)
         return (
             <div>
@@ -83,6 +81,10 @@ class NecessitySpecs extends Component {
                     <p>Company Name: {maintenanceCompany.Name}</p>
                     <p>Description: {maintenanceCompany.Description}</p>
                     <p>Contact: {maintenanceCompany.Phone_number}</p>
+                </Segment>
+                <Segment vertical>
+                    <h3>Statistics </h3>
+                    <p>Average Rating: {avgRating}</p>
                 </Segment>
             </div>
         );
