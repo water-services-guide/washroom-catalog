@@ -37,18 +37,16 @@ class HomeContent extends Component {
         </Grid.Row>
 
         <Grid.Row className="grid-row">
-          <Grid.Column>
-            <NecessityIcon />
-          </Grid.Column>
-          <Grid.Column>
-            <NecessityIcon />
-          </Grid.Column>
-          <Grid.Column>
-            <NecessityIcon />
-          </Grid.Column>
-          <Grid.Column>
-            <NecessityIcon />
-          </Grid.Column>
+          {this.props.hotNecessities.map((data, idx) => {
+            return (
+              <Grid.Column key={idx}>
+                <NecessityIcon
+                  necessityName={data.name}
+                  necessityId={data.Necessity_id}
+                />
+              </Grid.Column>
+            );
+          })}
         </Grid.Row>
       </Grid>
     );

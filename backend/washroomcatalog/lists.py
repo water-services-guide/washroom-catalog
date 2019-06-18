@@ -96,6 +96,21 @@ def getFavouriteBuildings(user_id):
     AND f.user_id = {user_id}
     """.format(user_id=user_id))
 
+def getNecessitiesLikedByAllUsers():
+    return findAll("""
+    SELECT *
+    FROM Necessity
+    WHERE Necessity_id NOT IN
+        (SELECT Necessity_id
+        FROM
+            (SELECT User_id, Necessity_id
+            FROM User CROSS JOIN Necessity) allCombos
+            WHERE NOT EXISTS 
+                (SELECT * 
+                FROM UserLike witness 
+                WHERE (allCombos.User_id, allCombos.Necessity_id) = (witness.User_id, witness.Necessity_id)))
+    """)
+
 def getMaintenanceCompanyInfo(necessity_id):
     return findOne("""
     SELECT *
