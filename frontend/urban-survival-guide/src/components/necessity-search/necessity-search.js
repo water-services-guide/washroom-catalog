@@ -23,7 +23,7 @@ class NecessitySearch extends Component {
 
   searchNecessities() {
     let query = 'http://localhost:5000/NecessityList?'
-    if (this.state.nids != '')
+    if (this.state.nids !== '')
       query += 'id=' + this.state.nids.toString() + '&'
 
     if (this.state.status.length > 0)

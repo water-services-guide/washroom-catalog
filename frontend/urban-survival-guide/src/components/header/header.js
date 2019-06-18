@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 class Nav extends Component {
     constructor(props){
         super(props)
-        
+
         let username = "admin"
         this.state = {
             username: username
@@ -26,7 +26,7 @@ class Nav extends Component {
                 <Menu.Item position='right'>
                     <Button
                         as={Link} to='/admin'
-                        disabled={this.state.username != "admin"}
+                        disabled={this.state.username !== "admin"}
                     >Admin</Button>
                 </Menu.Item>
 
