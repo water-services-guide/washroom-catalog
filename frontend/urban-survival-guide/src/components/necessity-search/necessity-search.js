@@ -13,7 +13,8 @@ class NecessitySearch extends Component {
         nids: '',
         status: [],
         type: [],
-        sex: []
+        sex: [],
+        fields: []
     };
 
     this.searchNecessities = this.searchNecessities.bind(this)
@@ -33,6 +34,9 @@ class NecessitySearch extends Component {
 
     if (this.state.sex.length > 0)
       query += 'sex=' + this.state.sex.join(',') + '&'
+
+    if (this.state.fields.length > 0)
+      query += 'fields=' + this.state.fields.join(',') + '&'
 
     axios.get(query)
       .then(response => {
@@ -86,6 +90,19 @@ class NecessitySearch extends Component {
     });
   }
 
+  toggleField(field) {
+    var fields = [...this.state.fields]
+
+    if (fields.includes(field))
+      fields.splice(fields.indexOf(field), 1)
+    else
+      fields.push(field)
+
+    this.setState({
+      fields: fields
+    });
+  }
+
   gotoNecessity(id) {
     axios.get('http://localhost:5000/NecessityType/'+id)
       .then(response => {
@@ -123,10 +140,12 @@ class NecessitySearch extends Component {
                   return (
                     <Card key={idx}>
                       <Card.Content>
-                        <Card.Header>Necessity ID: {data.Necessity_id}</Card.Header>
-                        <Card.Meta>Building ID: {data.Building_id}</Card.Meta>
+                        <Card.Header>{data.name}</Card.Header>
+                        {data.Status ? <Card.Meta>Status: {data.Status}</Card.Meta> : null}
                         <Card.Description>
-                          Status: {data.Status}
+                          {data.Necessity_id ? <span>Necessity ID: {data.Necessity_id}</span> : null}
+                          <br></br>
+                          {data.Building_id ? <span>Building ID: {data.Building_id}</span> : null}
                         </Card.Description>
                       </Card.Content>
                       <Card.Content extra>
@@ -187,7 +206,24 @@ class NecessitySearch extends Component {
                 <span>Necessity IDs:</span>
                 <input placeholder="ex: 1,4,10" onChange={(event) => {
                   this.setState({nids: event.target.value})}}/>
+                 <br></br>
                 <button onClick={() => this.searchNecessities()}>Search</button>
+                <br></br>
+                <hr></hr>
+                <span>Field Names:</span>
+                <br></br>
+                <Checkbox label='Building_id' onChange={() => {
+                  this.toggleField('Building_id')}}/>
+                <br></br>
+                <Checkbox label='Necessity_id' onChange={() => {
+                  this.toggleField('Necessity_id')}}/>
+                <br></br>
+                <Checkbox label='Status' onChange={() => {
+                  this.toggleField('Status')}}/>
+                <br></br>
+                <Checkbox label='name' onChange={() => {
+                  this.toggleField('name')}}/>
+                <br></br>
 
               </div>
             </Grid.Column>
