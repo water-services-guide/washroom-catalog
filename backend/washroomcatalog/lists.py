@@ -77,6 +77,14 @@ def getFavouriteBuilding(user_id, necessity_id):
     AND f.user_id =  {user_id}
     """.format(necessity_id=necessity_id, user_id=user_id))
 
+def getFavouriteBuildings(user_id):
+    return findAll("""
+    SELECT *
+    from Building b, Favourite f
+    WHERE b.Building_id = f.Building_id
+    AND f.user_id = {user_id}
+    """.format(user_id=user_id))
+
 def getMaintenanceCompanyInfo(necessity_id):
     return findOne("""
     SELECT *

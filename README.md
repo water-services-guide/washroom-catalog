@@ -14,7 +14,7 @@ docker-compose up # starts resources using the docker-compose file
 if you need access to a container for debugging purposes, the following command will allow you to run an interactive bash shell within your chosen container:
 
 ```
-docker exec -it <container name> sh
+docker exec -it <container name> /bin/bash
 ```
 
 * backend url: http://localhost:5000/ 

@@ -127,6 +127,14 @@ def rating(necessity_id):
     return make_response(jsonify(lists.getUserRating(user_id, necessity_id)))
 
 
+@app.route('/favouriteBuildings')
+@cross_origin()
+def getFavouriteBuildings():
+    # user_id = getUserId(request.headers['username'])
+    user_id = 5
+    return make_response(jsonify(lists.getFavouriteBuildings(user_id)))
+
+# TODO: add building favourites, ratings, likes, and user in header
 def generateNecessityResponseObject(user_id, necessity_id):
     return {
         'building' : lists.getBuildingDetails(necessity_id),

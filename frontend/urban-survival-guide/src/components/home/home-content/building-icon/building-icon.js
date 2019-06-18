@@ -1,22 +1,26 @@
 import React, {Component} from 'react';
-import './necessity-icon.css';
+import './building-icon.css';
 import {Image, Card} from 'semantic-ui-react';
 import image from '../../../../../images/default-image.png';
 import {Link} from 'react-router-dom';
 
-class NecessityIcon extends Component {
+class BuildingIcon extends Component {
+  constructor(props) {
+    super();
+  }
+
   render() {
     return (
-      <Card centered className='necessity-icon'>
+      <Card centered className='building-icon'>
         <Link to="/necessity/washroom/1">
           <Image src={image} />
         </Link>
         <Card.Content>
-          <Card.Header>Necessity Name</Card.Header>
+          <Card.Header>{this.props.buildingName === null ? 'Unknown name' : this.props.buildingName}</Card.Header>
         </Card.Content>
       </Card>
     );
   }
 }
 
-export default NecessityIcon;
+export default BuildingIcon;
