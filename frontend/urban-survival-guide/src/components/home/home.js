@@ -12,6 +12,7 @@ class Home extends Component {
     };
 
     this.getFavouriteBuildings = this.getFavouriteBuildings.bind(this);
+    this.getHotNecessities = this.getHotNecessities.bind(this);
   }
 
   getFavouriteBuildings() {
@@ -29,14 +30,33 @@ class Home extends Component {
     });
   }
 
+  getHotNecessities() {
+    let query = 'http://localhost:5000/necessitiesLikedByAllUsers';
+
+    axios.get(query).then((response) => {
+      var necessities = [];
+      for (let necessity of response.data) {
+        necessities.push(necessity);
+      }
+
+      this.setState({
+        necessities: necessities,
+      });
+    });
+  }
+
   componentWillMount() {
-      this.getFavouriteBuildings();
+    this.getFavouriteBuildings();
+    this.getHotNecessities();
   }
 
   render() {
     return (
       <div className="home">
-        <HomeContent favouriteBuildings={this.state.buildings} />
+        <HomeContent
+          favouriteBuildings={this.state.buildings}
+          hotNecessities={this.state.necessities}
+        />
       </div>
     );
   }
