@@ -149,9 +149,9 @@ class NecessitySearch extends Component {
                         </Card.Description>
                       </Card.Content>
                       <Card.Content extra>
-                          <Button basic color='blue' onClick={() => this.gotoNecessity(data.Necessity_id)}>
+                          {data.Necessity_id ? <Button basic color='blue' onClick={() => this.gotoNecessity(data.Necessity_id)}>
                             Details
-                          </Button>
+                          </Button> : null}
                       </Card.Content>
                     </Card>
                   )})}

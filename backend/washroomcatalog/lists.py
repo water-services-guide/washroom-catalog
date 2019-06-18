@@ -12,7 +12,7 @@ def getNecessities(options):
     query = 'SELECT '
 
     if options['fields'] != None:
-        query += options['fields']
+        query += 'DISTINCT ' + options['fields']
     else:
         query += '*'
 
