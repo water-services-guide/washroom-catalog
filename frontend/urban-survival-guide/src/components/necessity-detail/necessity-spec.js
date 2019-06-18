@@ -1,11 +1,11 @@
 import React, { Component } from 'react'
 import { Segment, Button } from 'semantic-ui-react'
-
+import { postFavouriteBuilding } from '../../backend-client'
 class NecessitySpecs extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            active: false
+            isBuildingFavourite: false
         }
         this.handleFavouriteButton = this.handleFavouriteButton.bind(this)
     }
@@ -21,6 +21,14 @@ class NecessitySpecs extends Component {
         }
     }
 
+    componentDidUpdate(prevProps, prevState) {
+        console.log("update!!!!: " + this.props.data.isBuildingFavourite)
+        if (prevState.isBuildingFavourite != this.props.data.isBuildingFavourite)
+            this.setState({
+                isBuildingFavourite: this.props.data.isBuildingFavourite
+            })
+    }
+
     getServiceList(services) {
         let items = []
         for (const [index, value] of services.entries()) {
@@ -30,12 +38,15 @@ class NecessitySpecs extends Component {
     }
 
     handleFavouriteButton() {
-        this.setState(prevState => ({ active: !prevState.active }))
+        postFavouriteBuilding(this.props.necessityId)
+        this.setState(prevState => ({ isBuildingFavourite: !prevState.isBuildingFavourite }))
 
     }
 
+
     render(props) {
-        let { building, isBuildingFavourite, isLiked, maintenanceCompany, necessity, services } = this.props.data
+        let { building, isBuildingFavourite, maintenanceCompany, necessity, services } = this.props.data
+        console.log("is it favourite in necessity spce render? " + isBuildingFavourite)
         let items = this.getServiceList(services)
         return (
             <div>
@@ -52,11 +63,11 @@ class NecessitySpecs extends Component {
                 </Segment>
                 <Segment vertical>
                     <span><h3>Building Information
-                        <Button 
+                        <Button
                             floated='right'
-                            active={this.state.active}
+                            active={this.state.isBuildingFavourite}
                             size='big'
-                            color={this.state.active ? 'pink' : null}
+                            color={this.state.isBuildingFavourite ? 'pink' : null}
                             icon='heart'
                             onClick={this.handleFavouriteButton}>
                         </Button>
