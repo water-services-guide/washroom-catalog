@@ -12,6 +12,22 @@ from washroomcatalog import app, lists
 def getUserList():
     return make_response(jsonify(lists.getUsers()))
 
+@app.route('/signUp', methods=['POST'])
+@cross_origin()
+def userEndpoint():
+    username = request.form['username']
+    password = request.form['password']
+    lists.addUser(username, password)
+    response = make_response(jsonify({'status': 'success'}))
+    return response
+
+@app.route('/logIn', methods=['GET'])
+@cross_origin()
+def logIn():
+    username = request.args.get('username')
+    password = request.args.get('password')
+    return make_response(jsonify(lists.findUserByCredentials(username, password)))
+
 @app.route('/NecessityList', methods=['GET'])
 def getNecessityList():
     options = {

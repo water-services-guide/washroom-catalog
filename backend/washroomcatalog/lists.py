@@ -185,6 +185,22 @@ def getUserIdByUsername(username):
     Where u.Username = '{username}'
     """.format(username=username))
 
+def findUserByCredentials(username, password):
+    return findOne("""
+    Select * 
+    from User u
+    where u.Username = '{username}'
+    and u.Password = '{password}'
+    """.format(username=username, password=password))
+
+def addUser(username, password):
+    return insert("""
+    INSERT INTO
+    User (Username, Password)
+    VALUES
+    ('{username}', '{password}')
+    """.format(username=username, password=password))
+
 def findFavouriteBuilding(user_id, necessity_id):
     return findOne("""
     Select *
