@@ -263,6 +263,39 @@ def getAvgRating(necessity_id):
     where r.Necessity_id = {necessity_id}
     """.format(necessity_id=necessity_id))
 
+
+# FOR ADMIN PAGE
+
+def deleteUser(user_id): 
+    return insert("""
+    Delete from User where User_id = {user_id}
+    """.format(user_id=user_id))
+
+def updateNecessityStatus(nid, status):
+    return insert("""
+    Update Necessity Set status = '{status}' where Necessity_id = {nid}
+    """.format(status=status, nid=nid))
+
+def projectNecessity(attribute):
+    return findAll("""
+    Select {attribute} from Necessity
+    """.format(attribute=attribute))
+
+def joinNecessity(table, join_condition):
+    return findAll("""
+    Select * 
+    from Necessity n, {table}
+    Where {join_condition}
+    """.format(table=table, join_condition=join_condition))
+
+def getAvgRatingByAllUsers():
+    return findAll("""
+    select u.User_id, Avg(r.rating)
+    from User u, Rating r
+    where u.User_Id = r.User_id
+    group by u.User_id
+    """)
+
 def insert(query):
     connection = mysql.connect()
     cursor = connection.cursor()

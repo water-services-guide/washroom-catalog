@@ -59,7 +59,7 @@ CREATE TABLE Comment(
   User_id int,
   Necessity_id int NOT NULL,
   PRIMARY KEY (Comment_id),
-  FOREIGN KEY (User_id) REFERENCES User(User_id) ON UPDATE CASCADE ON DELETE SET NULL,
+  FOREIGN KEY (User_id) REFERENCES User(User_id) ON UPDATE CASCADE ON DELETE CASCADE,
   FOREIGN KEY (Necessity_id) REFERENCES Necessity(Necessity_id) ON UPDATE CASCADE ON DELETE CASCADE
 );
 

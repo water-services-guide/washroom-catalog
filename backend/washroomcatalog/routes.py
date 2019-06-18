@@ -176,6 +176,58 @@ def getRatingIfExists(result):
 def ratingExists(result):
     return not not result
 
+
+# admin routes
+
+
+@app.route('/deleteuser/<id>', methods=["POST", "OPTIONS"])
+@cross_origin()   
+def deleteUser(id):
+    lists.deleteUser(id)
+    return make_response(jsonify({'status': 'deleted'}))
+
+@app.route('/necessity/<id>/status', methods=["POST", "OPTIONS"])
+@cross_origin()   
+def updateNecessityStatus(id):
+    data = json.loads(request.data)
+    status = data['status']
+    lists.updateNecessityStatus(id, status)
+    return make_response(jsonify({'status': 'updated'}))
+
+
+@app.route('/necessity/<attribute>', methods=["GET", "OPTIONS"])
+@cross_origin()   
+def projectNecessityAttribute(attribute):
+    result = lists.projectNecessity(attribute)
+    return make_response(jsonify(result))
+
+
+@app.route('/avgRatings', methods=["GET", "OPTIONS"])
+@cross_origin()   
+def aggregateRatingsByUser():
+    result = lists.getAvgRatingByAllUsers()
+    return make_response(jsonify(result))
+
+@app.route('/necessity/join', methods=["POST", "OPTIONS"])
+@cross_origin()   
+def join():
+    data = json.loads(request.data)
+    table = data['table']
+    join_statement = "n.Necessity_id = "
+    if (table == "Rating"):
+        join_statement += "Rating.Necessity_id"
+    elif (table == "UserLike"):
+        join_statement += "UserLike.Necessity_id"
+    elif (table == "Service"):
+        join_statement += "Service.Necessity_id"
+    else:
+        return make_response(jsonify({'status':"nope"}))
+    result = lists.joinNecessity(table, join_statement)
+    return make_response(jsonify(result))
+
+    
+    
+
 @app.route('/')
 def main():
     response_object = {
