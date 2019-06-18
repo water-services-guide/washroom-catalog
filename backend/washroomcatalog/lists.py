@@ -9,7 +9,14 @@ def getUsers():
     return findAll('SELECT * FROM User')
 
 def getNecessities(options):
-    query = 'SELECT * FROM Necessity'
+    query = 'SELECT '
+
+    if options['fields'] != None:
+        query += options['fields']
+    else:
+        query += '*'
+
+    query +=  ' FROM Necessity'
     queryOptions = []
 
     if options['id'] != None:
@@ -105,9 +112,9 @@ def getNecessitiesLikedByAllUsers():
         FROM
             (SELECT User_id, Necessity_id
             FROM User CROSS JOIN Necessity) allCombos
-            WHERE NOT EXISTS 
-                (SELECT * 
-                FROM UserLike witness 
+            WHERE NOT EXISTS
+                (SELECT *
+                FROM UserLike witness
                 WHERE (allCombos.User_id, allCombos.Necessity_id) = (witness.User_id, witness.Necessity_id)))
     """)
 
