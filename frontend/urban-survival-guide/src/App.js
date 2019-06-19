@@ -8,7 +8,7 @@ import NecessityResults from './components/necessity-results/necessity-results';
 import NecessitySearch from './components/necessity-search/necessity-search';
 import './index.css';
 import Admin from './components/admin/admin';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { Route, Switch } from 'react-router-dom';
 
 
 class App extends Component {
