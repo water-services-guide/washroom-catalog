@@ -12,10 +12,11 @@ class Nav extends Component {
         }
     }
 
+
     render() {
         return (
-            <Menu borderless pointing color='teal' inverted>
-                <Menu.Item>
+            <Menu borderless pointing secondary color='teal'>
+                <Menu.Item as={Link} to='/home'>
 
                     <Header size='huge'>
                         Urban Survival Guide 🚽
@@ -23,18 +24,17 @@ class Nav extends Component {
 
                 </Menu.Item>
 
-                <Menu.Item position='right'>
-                    <Button as={Link} to='/home'>Home</Button>
-                    <Button as={Link} to='/search'>Search</Button>
 
-                    <Button
-                        as={Link} to='/admin'
-                        disabled={this.state.username !== "admin"}
-                    >Admin</Button>
+                <Menu.Item as={Link} to='/search' position="right" >
+                    <h3>Search</h3>
                 </Menu.Item>
 
-                <Menu.Item position='right'>
-                <Button as={Link} to='/'>Log In/Sign Up</Button>
+                <Menu.Item as={Link} to='/admin'
+                disabled={this.state.username !== "admin"}>
+                <h3>Admin Page</h3>
+                </Menu.Item>
+                <Menu.Item as={ Link } name='profile' to='/'>
+                   <h3>Log In/Sign Up</h3> 
                 </Menu.Item>
             </Menu>
         );

@@ -14,16 +14,18 @@ import { Route, Switch } from 'react-router-dom';
 class App extends Component {
   render() {
     return (
-      <div className="App">
+      <div>
         <Nav></Nav>
-        <Switch>
-          <Route path="/necessity/:type/:id" component={NecessityDetail} />
-          <Route path="/home" component={Home} />
-          <Route exact path="/" component={Login} />
-          <Route exact path="/necessities" component={NecessityResults} />
-          <Route exact path="/search" component={NecessitySearch} />
-          <Route exact path="/admin" component={Admin} />
-        </Switch>
+        <div className="view">
+          <Switch>
+            <Route path="/necessity/:type/:id" component={NecessityDetail} />
+            <Route path="/home" component={Home} />
+            <Route exact path="/" component={Login} />
+            <Route exact path="/necessities" component={NecessityResults} />
+            <Route exact path="/search" component={NecessitySearch} />
+            <Route exact path="/admin" component={Admin} />
+          </Switch>
+        </div>
       </div>
     );
   }
