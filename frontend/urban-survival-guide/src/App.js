@@ -25,25 +25,27 @@ class App extends Component {
 
 
   refresh(key, value) {
-    this.setState({key: value})
+    this.setState({ key: value })
   }
 
   render() {
-  //   if (!this.state.loggedOn) {
-  //     return <Redirect to="/login" />;
-  //   }
+    //   if (!this.state.loggedOn) {
+    //     return <Redirect to="/login" />;
+    //   }
     return (
-      <div className="App">
+      <div>
         <Nav refresh={this.refresh}></Nav>
-        <Switch>
-          <Route path="/necessity/:type/:id" component={NecessityDetail} />
-          <Route exact path="/login" render={props => <Login refresh={this.refresh} />} />
-          {/* <Route path="/login" component={Login} refresh={this.refresh}/> */}
-          <Route exact path="/necessities" component={NecessityResults} />
-          <Route exact path="/search" component={NecessitySearch} />
-          <Route exact path="/admin" component={Admin} />
-          <Route exact path="/" component={Home}/>
-        </Switch>
+        <div className="view">
+          <Switch>
+            <Route path="/necessity/:type/:id" component={NecessityDetail} />
+            <Route exact path="/login" render={props => <Login refresh={this.refresh} />} />
+            {/* <Route path="/login" component={Login} refresh={this.refresh}/> */}
+            <Route exact path="/necessities" component={NecessityResults} />
+            <Route exact path="/search" component={NecessitySearch} />
+            <Route exact path="/admin" component={Admin} />
+            <Route exact path="/" component={Home} />
+          </Switch>
+        </div>
       </div>
     );
   }

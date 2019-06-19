@@ -3,13 +3,24 @@ import { Link } from 'react-router-dom';
 import { Button, Header, Menu } from 'semantic-ui-react';
 
 class Nav extends Component {
-    constructor(props){
+    constructor(props) {
         super(props)
 
         let username = "admin"
         this.state = {
-            username: username
+            username: username,
+            activeItem: ""
         }
+
+        this.handleItemClick = this.handleItemClick.bind(this)
+    }
+
+    style = {
+        'background-color': 'rgb(226, 251, 255)'
+    }
+
+    handleItemClick = (e, { name }) => {
+        this.setState({ ...this.state, activeItem: name })
     }
 
     // TODO: redirect to /login
@@ -23,35 +34,30 @@ class Nav extends Component {
         let button;
             
         if (localStorage.getItem('user_id') !== null) {
-            button = <Button as={Link} to='/login' onClick={this.handleSignOut}>Sign Out</Button>;
+            button =
+            <Menu.Item as={Link} name='profile' to='/login' active={activeItem == "profile"} onClick={this.handleSignOut}>
+                <h3>Sign Out</h3>
+            </Menu.Item>;
         } else {
             button = null;
         }
 
+        let {activeItem} = this.state
         return (
-        
-            <Menu borderless pointing color='teal' inverted>
-                <Menu.Item>
-
+            <Menu borderless pointing secondary color='teal' style={this.style} >
+                <Menu.Item as={Link} to='/'>
                     <Header size='huge'>
-                        Urban Survival Guide 🚽
+                        🚽  Urban Survival Guide
                     </Header>
-
                 </Menu.Item>
-
-                <Menu.Item position='right'>
-                    <Button as={Link} to='/home'>Home</Button>
-                    <Button as={Link} to='/search'>Search</Button>
-
-                    <Button
-                        as={Link} to='/admin'
-                        disabled={this.state.username !== "admin"}
-                    >Admin</Button>
+                <Menu.Item as={Link} to='/search' position="right" name="search" active={activeItem == "search"} onClick={this.handleItemClick} >
+                    <h3>Search</h3>
                 </Menu.Item>
-
-                <Menu.Item position='right'>
-                    {button}
+                <Menu.Item as={Link} to='/admin'
+                    disabled={this.state.username !== "admin"} name="admin" active={activeItem == "admin"}  onClick={this.handleItemClick}>
+                    <h3>Admin</h3>
                 </Menu.Item>
+                {button}
             </Menu>
         );
     }
