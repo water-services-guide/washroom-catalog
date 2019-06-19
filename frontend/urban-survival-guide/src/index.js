@@ -13,19 +13,9 @@ import Admin from './components/admin/admin';
 
 const routing = (
   <div>
-  <Router>
-  <Nav></Nav>
-    <div>
-      <Switch>
-      <Route path="/necessity/:type/:id" component={NecessityDetail} />
-      <Route path="/home" component={Home} />
-      <Route exact path="/" component={App} />
-      <Route exact path="/necessities" component={NecessityResults} />
-      <Route exact path="/search" component={NecessitySearch} />
-      <Route exact path="/admin" component={Admin} />
-      </Switch>
-    </div>
-  </Router>
+    <Router>
+        <App></App>
+    </Router>
   </div>
 )
- ReactDOM.render( routing, document.getElementById('root') );
+ReactDOM.render(routing, document.getElementById('root'));
