@@ -16,7 +16,7 @@ class CommentGroup extends Component {
     this.state = {
       comment: {
         // change username when we have users setup
-        Username: "",
+        Username: localStorage.getItem("user_id"),
         Comment: "",
         Date : ""
       }
@@ -40,7 +40,7 @@ class CommentGroup extends Component {
     this.props.addComment(this.state.comment) 
     this.setState({
       comment: {
-        Username: "blank for now",
+        ...this.state.comment,
         Comment: "",
         Date: ""
       }
@@ -72,7 +72,7 @@ class CommentGroup extends Component {
     this.setState({
       ...this.state,
       comment: {
-        Username: "blank name for now",
+        ...this.state.comment,
         Comment: value,
         Date: new Date()
       }

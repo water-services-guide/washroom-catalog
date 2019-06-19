@@ -2,9 +2,10 @@ import axios from 'axios'
 
 const endpoint = 'http://localhost:5000/'
 
+// TODO use local storage here
 const config = {
     headers: {
-        username: 'User1',
+        username: "User1",
     },
     "crossDomain": true
 }

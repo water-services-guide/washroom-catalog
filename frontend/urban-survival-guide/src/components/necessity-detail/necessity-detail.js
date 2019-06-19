@@ -69,7 +69,6 @@ class NecessityDetail extends Component {
 
   handleRate(e, { rating}) {
     postRating(new Date(), this.necessityId, rating)
-    console.log("rated!!!")
     this.setState({
       ...this.state,
       data: {
