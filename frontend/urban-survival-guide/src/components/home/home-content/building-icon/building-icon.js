@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import './building-icon.css';
 import {Image, Card} from 'semantic-ui-react';
-import image from '../../../../../images/default-image.png';
+import default_building from '../../../../../images/default_building.jpg';
 import {Link} from 'react-router-dom';
 
 class BuildingIcon extends Component {
@@ -19,7 +19,7 @@ class BuildingIcon extends Component {
     return (
       <Card centered className="building-icon">
         <Link to="/search">
-          <Image src={image} onClick={this.handleClick} />
+          <Image src={default_building} onClick={this.handleClick} />
         </Link>
         <Card.Content>
           <Card.Header>

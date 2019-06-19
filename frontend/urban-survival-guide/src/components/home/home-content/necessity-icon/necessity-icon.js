@@ -1,8 +1,10 @@
 import React, {Component} from 'react';
 import axios from 'axios';
 import './necessity-icon.css';
+import default_washroom from '../../../../../images/default_washroom.png';
+import default_shower from '../../../../../images/default_shower.jpg';
+import default_fountain from '../../../../../images/default_fountain.jpg';
 import {Image, Card} from 'semantic-ui-react';
-import image from '../../../../../images/default-image.png';
 import {Link} from 'react-router-dom';
 
 class NecessityIcon extends Component {
@@ -11,6 +13,7 @@ class NecessityIcon extends Component {
 
     this.state = {
       url: '',
+      necessityType: '',
     };
   }
 
@@ -18,6 +21,7 @@ class NecessityIcon extends Component {
     axios.get('http://localhost:5000/NecessityType/' + id).then((response) => {
       this.setState({
         url: '/necessity/' + response.data + '/' + id,
+        necessityType: response.data,
       });
     });
   }
@@ -27,10 +31,19 @@ class NecessityIcon extends Component {
   }
 
   render() {
+    let imageSrc;
+    if (this.state.necessityType === 'washroom') {
+      imageSrc = default_washroom;
+    } else if (this.state.necessityType === 'shower') {
+      imageSrc = default_shower;
+    } else {
+      imageSrc = default_fountain;
+    }
+
     return (
       <Card centered className="necessity-icon">
         <Link to={this.state.url}>
-          <Image src={image} />
+          <Image src={imageSrc} />
         </Link>
         <Card.Content>
           <Card.Header>

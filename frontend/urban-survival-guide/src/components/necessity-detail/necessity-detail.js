@@ -1,7 +1,9 @@
-import React, { Component } from 'react'
-import { Grid, Image, Segment, Rating, Button, Icon } from 'semantic-ui-react'
-import image from '../../../images/default-image.png'
-import CommentGroup from './comment-group'
+import React, { Component } from 'react';
+import { Grid, Image, Segment, Rating, Button, Icon } from 'semantic-ui-react';
+import default_washroom from '../../../images/default_washroom.png';
+import default_shower from '../../../images/default_shower.jpg';
+import default_fountain from '../../../images/default_fountain.jpg';
+import CommentGroup from './comment-group';
 import NecessitySpecs from './necessity-spec';
 import IncidentReport from './incident-report';
 import { getNecessityDetails, postRating, postLike } from '../../backend-client'
@@ -91,6 +93,16 @@ class NecessityDetail extends Component {
   }
 
   render() {
+    let type  = this.props.match.params.type
+    let imageSrc;
+    if (type === 'washroom') {
+      imageSrc = default_washroom;
+    } else if (type === 'shower') {
+      imageSrc = default_shower;
+    } else {
+      imageSrc = default_fountain;
+    }
+
     return (
       <div>
         <Segment>
@@ -98,7 +110,7 @@ class NecessityDetail extends Component {
             <Grid.Column>
               <h1> {this.state.data.necessity.name} </h1>
               <p>
-                <Image src={image} className="ui fluid image" />
+                <Image src={imageSrc} className="ui fluid image" />
               </p>
 
               <Rating maxRating={5}
