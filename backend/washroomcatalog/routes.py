@@ -14,7 +14,7 @@ def getUserList():
 
 @app.route('/signUp', methods=['POST'])
 @cross_origin()
-def userEndpoint():
+def signUp():
     username = request.form['username']
     password = request.form['password']
     lists.addUser(username, password)
@@ -27,6 +27,12 @@ def logIn():
     username = request.args.get('username')
     password = request.args.get('password')
     return make_response(jsonify(lists.findUserByCredentials(username, password)))
+
+@app.route('/getUserIdByUsername', methods=['GET'])
+@cross_origin()
+def getUserIdByUsername():
+    username = request.args.get('username')
+    return make_response(jsonify(lists.getUserIdByUsername(username)))
 
 @app.route('/NecessityList', methods=['GET'])
 def getNecessityList():
