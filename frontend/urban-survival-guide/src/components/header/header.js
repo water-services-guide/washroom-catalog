@@ -22,8 +22,7 @@ class Nav extends Component {
     handleItemClick = (e, { name }) => {
         this.setState({ ...this.state, activeItem: name })
     }
-
-    // TODO: redirect to /login
+    
     handleSignOut = event => {
         event.preventDefault();
         localStorage.clear();
