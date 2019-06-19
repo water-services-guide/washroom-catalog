@@ -39,6 +39,10 @@ def getNecessityList():
     }
     return make_response(jsonify(lists.getNecessities(options)))
 
+@app.route('/necessitiesWithBuildingId/<id>', methods=['GET'])
+def getNecessitiesWithBuildingId(id):
+    return make_response(jsonify(lists.getNecessitiesWithBuildingId(id)))
+
 @app.route('/NecessityType/<id>')
 def getNecessityType(id):
     if (len(lists.getWashroomDetails(id)) > 0):

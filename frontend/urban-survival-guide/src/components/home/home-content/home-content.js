@@ -22,7 +22,7 @@ class HomeContent extends Component {
           {this.props.favouriteBuildings.map((data, idx) => {
             return (
               <Grid.Column key={idx}>
-                <BuildingIcon buildingName={data.Name} />
+                <BuildingIcon buildingName={data.Name} buildingId={data.Building_id}/>
               </Grid.Column>
             );
           })}

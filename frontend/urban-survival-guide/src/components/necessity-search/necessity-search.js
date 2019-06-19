@@ -110,6 +110,27 @@ class NecessitySearch extends Component {
       })
   }
 
+  getNecessitiesWithBuildingId(id) {
+    axios.get('http://localhost:5000/necessitiesWithBuildingId/'+id)
+      .then(response => {
+        let necessities = []
+        for (let necessity of response.data) {
+          necessities.push(necessity)
+        }
+
+        this.setState({
+          necessities: necessities
+        });
+      })
+  }
+
+  componentWillMount() {
+    if (localStorage.getItem('temp_fav_building_id') !== null) {
+      this.getNecessitiesWithBuildingId(localStorage.getItem('temp_fav_building_id'));
+      localStorage.removeItem('temp_fav_building_id');
+    }
+  }
+
   render() {
     return (
 

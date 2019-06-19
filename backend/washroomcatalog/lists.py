@@ -69,6 +69,13 @@ def getNecessities(options):
 
     return findAll(query)
 
+def getNecessitiesWithBuildingId(building_id):
+    return findAll("""
+    SELECT *
+    FROM Necessity n
+    WHERE n.Building_id = {building_id}
+    """.format(building_id=building_id))
+
 def getComments(necessity_id):
     return findAll("""
     SELECT *
