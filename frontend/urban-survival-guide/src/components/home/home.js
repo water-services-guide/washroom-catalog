@@ -17,8 +17,9 @@ class Home extends Component {
 
   getFavouriteBuildings() {
     let query = 'http://localhost:5000/favouriteBuildings';
+    let headers = {'user-id': localStorage.getItem('user_id')};
 
-    axios.get(query).then((response) => {
+    axios.get(query, {headers: headers}).then((response) => {
       var buildings = [];
       for (let building of response.data) {
         buildings.push(building);

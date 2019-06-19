@@ -149,8 +149,7 @@ def rating(necessity_id):
 @app.route('/favouriteBuildings')
 @cross_origin()
 def getFavouriteBuildings():
-    # user_id = getUserId(request.headers['username'])
-    user_id = 5
+    user_id = request.headers['user_id']
     return make_response(jsonify(lists.getFavouriteBuildings(user_id)))
 
 @app.route('/necessitiesLikedByAllUsers')

@@ -34,7 +34,7 @@ class Nav extends Component {
                 </Menu.Item>
 
                 <Menu.Item position='right'>
-                <Button as={Link} to='/'>Admin</Button>
+                <Button as={Link} to='/'>Log In/Sign Up</Button>
                 </Menu.Item>
             </Menu>
         );
