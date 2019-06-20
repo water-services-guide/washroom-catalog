@@ -14,7 +14,8 @@ class NecessitySearch extends Component {
         status: [],
         type: [],
         sex: [],
-        fields: []
+        fields: [],
+        liked: []
     };
 
     this.searchNecessities = this.searchNecessities.bind(this)
@@ -38,6 +39,10 @@ class NecessitySearch extends Component {
     if (this.state.fields.length > 0)
       query += 'fields=' + this.state.fields.join(',') + '&'
 
+    if (this.state.liked.length > 0)
+      query += 'likedBy=' + this.state.liked.join(',') + '&'
+
+    console.log(query)
     axios.get(query)
       .then(response => {
         var necessities = []
@@ -100,6 +105,22 @@ class NecessitySearch extends Component {
 
     this.setState({
       fields: fields
+    });
+  }
+
+  toggleLiked() {
+    var liked = [...this.state.liked]
+
+    var userId = localStorage.getItem('user_id')
+    console.log(userId)
+
+    if (liked.includes(userId))
+      liked.splice(liked.indexOf(userId), 1)
+    else
+      liked.push(userId)
+
+    this.setState({
+      liked: liked
     });
   }
 
@@ -222,6 +243,12 @@ class NecessitySearch extends Component {
                 <br></br>
                 <Checkbox label='male' onChange={() => {
                   this.toggleSex('m')}}/>
+                <br></br>
+
+                <span>Liked:</span>
+                <br></br>
+                <Checkbox label='liked' onChange={() => {
+                  this.toggleLiked()}}/>
                 <br></br>
 
                 <span>Necessity IDs:</span>

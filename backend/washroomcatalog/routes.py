@@ -41,7 +41,8 @@ def getNecessityList():
         'status': request.args.get('status'),
         'type': request.args.get('type'),
         'sex': request.args.get('sex'),
-        'fields': request.args.get('fields')
+        'fields': request.args.get('fields'),
+        'likedBy': request.args.get('likedBy')
     }
     return make_response(jsonify(lists.getNecessities(options)))
 
@@ -209,13 +210,13 @@ def ratingExists(result):
 
 
 @app.route('/deleteuser/<id>', methods=["POST", "OPTIONS"])
-@cross_origin()   
+@cross_origin()
 def deleteUser(id):
     lists.deleteUser(id)
     return make_response(jsonify({'status': 'deleted'}))
 
 @app.route('/necessity/<id>/status', methods=["POST", "OPTIONS"])
-@cross_origin()   
+@cross_origin()
 def updateNecessityStatus(id):
     data = json.loads(request.data)
     status = data['status']
@@ -224,20 +225,20 @@ def updateNecessityStatus(id):
 
 
 @app.route('/necessity/<attribute>', methods=["GET", "OPTIONS"])
-@cross_origin()   
+@cross_origin()
 def projectNecessityAttribute(attribute):
     result = lists.projectNecessity(attribute)
     return make_response(jsonify(result))
 
 
 @app.route('/avgRatings', methods=["GET", "OPTIONS"])
-@cross_origin()   
+@cross_origin()
 def aggregateRatingsByUser():
     result = lists.getAvgRatingByAllUsers()
     return make_response(jsonify(result))
 
 @app.route('/necessity/join', methods=["POST", "OPTIONS"])
-@cross_origin()   
+@cross_origin()
 def join():
     data = json.loads(request.data)
     table = data['table']
@@ -253,8 +254,8 @@ def join():
     result = lists.joinNecessity(table, join_statement)
     return make_response(jsonify(result))
 
-    
-    
+
+
 
 @app.route('/')
 def main():
