@@ -22,9 +22,8 @@ class Nav extends Component {
     handleItemClick = (e, { name }) => {
         this.setState({ ...this.state, activeItem: name })
     }
-    
+
     handleSignOut = event => {
-        event.preventDefault();
         localStorage.clear();
         this.props.refresh("loggedOn", false)
     }
