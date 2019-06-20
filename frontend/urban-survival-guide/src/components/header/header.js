@@ -28,15 +28,33 @@ class Nav extends Component {
     }
 
     render() {
-        let button;
+        let signOutButton;
+        let adminButton;
+        let searchButton;
             
         if (localStorage.getItem('user_id') !== null) {
-            button =
+            signOutButton =
             <Menu.Item as={Link} name='profile' to='/login' active={activeItem === "profile"} onClick={this.handleSignOut}>
                 <h3>Sign Out</h3>
             </Menu.Item>;
+
+            searchButton =                 
+            <Menu.Item as={Link} to='/search' position="right" name="search" active={activeItem === "search"} onClick={this.handleItemClick} >
+            <h3>Search</h3>
+            </Menu.Item>;
+
+            if (localStorage.getItem('username') === 'admin') {
+                adminButton = 
+                <Menu.Item as={Link} to='/admin' name="admin" active={activeItem === "admin"}  onClick={this.handleItemClick} >
+                    <h3>Admin</h3>
+                </Menu.Item>
+            } else {
+                adminButton = null;
+            }
         } else {
-            button = null;
+            signOutButton = null;
+            adminButton = null;
+            searchButton = null;
         }
 
         let {activeItem} = this.state
@@ -47,14 +65,9 @@ class Nav extends Component {
                         🚽  Urban Survival Guide
                     </Header>
                 </Menu.Item>
-                <Menu.Item as={Link} to='/search' position="right" name="search" active={activeItem === "search"} onClick={this.handleItemClick} >
-                    <h3>Search</h3>
-                </Menu.Item>
-                <Menu.Item as={Link} to='/admin'
-                    disabled={localStorage.getItem('username') !== "admin"} name="admin" active={activeItem === "admin"}  onClick={this.handleItemClick}>
-                    <h3>Admin</h3>
-                </Menu.Item>
-                {button}
+                {searchButton}
+                {adminButton}
+                {signOutButton}
             </Menu>
         );
     }
