@@ -62,7 +62,6 @@ def getNecessityType(id):
 @cross_origin()
 def getWashroomDetails(id):
     user_id = getUserId(request.headers['username'])
-    # user_id = 1
     responseObject = generateNecessityResponseObject(user_id, id)
     responseObject['necessity'] = lists.getWashroomDetails(id)
     return make_response(jsonify(responseObject))
@@ -70,8 +69,7 @@ def getWashroomDetails(id):
 @app.route('/necessity/shower/<id>', methods=["GET", "OPTIONS"])
 @cross_origin()
 def getShowerDetails(id):
-    # user_id = getUserId(request.headers['username'])
-    user_id = 1
+    user_id = getUserId(request.headers['username'])
     responseObject = generateNecessityResponseObject(user_id, id)
     responseObject['necessity'] = lists.getShowerDetails(id)
     return make_response(jsonify(responseObject))
@@ -79,8 +77,7 @@ def getShowerDetails(id):
 @app.route('/necessity/WaterFountain/<id>', methods=["GET", "OPTIONS"])
 @cross_origin()
 def getWaterFountainDetails(id):
-    # user_id = getUserId(request.headers['username'])
-    user_id = 1
+    user_id = getUserId(request.headers['username'])
     responseObject = generateNecessityResponseObject(user_id, id)
     responseObject['necessity'] = lists.getWaterFountainDetails(id)
     return make_response(jsonify(responseObject))
@@ -178,6 +175,12 @@ def generateNecessityResponseObject(user_id, necessity_id):
         'rating' : getRatingIfExists(lists.getUserRating(user_id, necessity_id)),
         'avgRating' : lists.getAvgRating(necessity_id)['avg']
     }
+
+@app.route('/test')
+def test():
+   result = lists.findUserLike( 14, 13)
+
+   return make_response(jsonify(isLiked(lists.findUserLike( 14, 13))))
 
 def getUserId(username):
     return lists.getUserIdByUsername(username)['User_id']
