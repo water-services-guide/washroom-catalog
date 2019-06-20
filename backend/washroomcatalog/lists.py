@@ -59,6 +59,13 @@ def getNecessities(options):
                 '''.format(s=sex[0])
             queryOptions.append(queryOption)
 
+    if options['likedBy'] != None:
+        queryOption = ''
+        user_id = options['likedBy'].split(',')
+        if len(user_id) == 1:
+            queryOption += '''Necessity_id IN (SELECT Necessity_id FROM UserLike WHERE User_id = {user_id})
+                '''.format(user_id=user_id[0])
+            queryOptions.append(queryOption)
 
     if len(queryOptions) > 0:
         query += ' WHERE '
@@ -66,6 +73,7 @@ def getNecessities(options):
             query += '(' + queryOption + ')'
             if (queryOptions.index(queryOption) < len(queryOptions) - 1):
                 query += ' AND '
+
 
     return findAll(query)
 
@@ -112,13 +120,13 @@ def getFavouriteBuildings(user_id):
 
 def getNecessitiesLikedByAllUsers():
     return findAll("""
-    SELECT * 
-    FROM Necessity n 
-    WHERE NOT EXISTS 
-    (SELECT * 
-    FROM User u WHERE NOT EXISTS 
-    (SELECT * 
-    FROM UserLike ul 
+    SELECT *
+    FROM Necessity n
+    WHERE NOT EXISTS
+    (SELECT *
+    FROM User u WHERE NOT EXISTS
+    (SELECT *
+    FROM UserLike ul
     WHERE n.Necessity_id = ul.Necessity_id AND u.User_id = ul.User_id))
     """)
 
@@ -191,7 +199,7 @@ def getUserIdByUsername(username):
 
 def findUserByCredentials(username, password):
     return findOne("""
-    Select * 
+    Select *
     from User u
     where u.Username = '{username}'
     and u.Password = '{password}'
@@ -285,7 +293,7 @@ def getAvgRating(necessity_id):
 
 # FOR ADMIN PAGE
 
-def deleteUser(user_id): 
+def deleteUser(user_id):
     return insert("""
     Delete from User where User_id = {user_id}
     """.format(user_id=user_id))
@@ -302,7 +310,7 @@ def projectNecessity(attribute):
 
 def joinNecessity(table, join_condition):
     return findAll("""
-    Select * 
+    Select *
     from Necessity n, {table}
     Where {join_condition}
     """.format(table=table, join_condition=join_condition))
