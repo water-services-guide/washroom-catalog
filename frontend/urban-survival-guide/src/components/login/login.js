@@ -22,6 +22,7 @@ class Login extends Component {
     this.handleChange = this.handleChange.bind(this);
     this.handleSignUp = this.handleSignUp.bind(this);
     this.handleLogIn = this.handleLogIn.bind(this);
+    this.logInAfterSignUp = this.logInAfterSignUp.bind(this);
   }
 
   handleChange = event => {
@@ -55,11 +56,19 @@ class Login extends Component {
   tryToSignUp(username) {
     axios.get(this.API + "getUserIdByUsername?username=" + username).then((response) => {
       if (response.data.User_id === undefined) {
-        postUser(this.state.signupUsername, this.state.signupPassword);
+        postUser(this.state.signupUsername, this.state.signupPassword, this.logInAfterSignUp);
         alert("You have created a new user with username '" + this.state.signupUsername + "'");
       } else {
         alert("Username '" + this.state.signupUsername + "' is already taken. Try another username.");
       }
+    });
+  }
+
+  logInAfterSignUp(username) {
+    axios.get(this.API + "getUserIdByUsername?username=" + username).then((response) => {
+      localStorage.setItem('user_id', response.data.User_id);
+      localStorage.setItem('username', username);
+      this.props.setLoggedIn(true);
     });
   }
 

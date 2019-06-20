@@ -87,13 +87,14 @@ export function postIncidentReport(date, content, severity, subject, necessity_i
         });
 }
 
-export function postUser(username, password) {
+export function postUser(username, password, callback) {
         let data = new FormData();
         data.append('username', username);
         data.append('password', password);
         axios.post(endpoint + "signUp", data, config)
         .then(function (response) {
             console.log(response);
+            callback(username);
         })
         .catch(function (error) {
             console.log(error);
