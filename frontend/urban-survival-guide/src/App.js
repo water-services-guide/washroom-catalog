@@ -9,41 +9,39 @@ import NecessitySearch from './components/necessity-search/necessity-search';
 import './index.css';
 import Admin from './components/admin/admin';
 import { Route, Switch } from 'react-router-dom';
-import { Redirect } from 'react-router';
+import PrivateRoute from './PrivateRoute';
 
 
 class App extends Component {
 
   constructor(props) {
     super(props);
-    this.refresh = this.refresh.bind(this);
+    this.setLoggedIn = this.setLoggedIn.bind(this);
 
     this.state = {
-      loggedOn: false
+      loggedIn: (localStorage.getItem('user_id') !== null)
     };
   }
 
 
-  refresh(key, value) {
-    this.setState({ key: value })
+  setLoggedIn(value) {
+    this.setState({ 
+      loggedIn: value 
+    });
   }
 
   render() {
-    //   if (!this.state.loggedOn) {
-    //     return <Redirect to="/login" />;
-    //   }
     return (
       <div>
-        <Nav refresh={this.refresh}></Nav>
+        <Nav setLoggedIn={this.setLoggedIn}></Nav>
         <div className="view">
           <Switch>
-            <Route path="/necessity/:type/:id" component={NecessityDetail} />
-            <Route exact path="/login" render={props => <Login refresh={this.refresh} />} />
-            {/* <Route path="/login" component={Login} refresh={this.refresh}/> */}
-            <Route exact path="/necessities" component={NecessityResults} />
-            <Route exact path="/search" component={NecessitySearch} />
-            <Route exact path="/admin" component={Admin} />
-            <Route exact path="/" component={Home} />
+            <Route exact path="/login" render={props => <Login setLoggedIn={this.setLoggedIn} />} />
+            <PrivateRoute path="/necessity/:type/:id" component={NecessityDetail} loggedIn={this.state.loggedIn}/>
+            <PrivateRoute exact path="/necessities" component={NecessityResults} loggedIn={this.state.loggedIn} />
+            <PrivateRoute exact path="/search" component={NecessitySearch} loggedIn={this.state.loggedIn} />
+            <PrivateRoute exact path="/admin" component={Admin} loggedIn={this.state.loggedIn} />
+            <PrivateRoute exact path="/" component={Home} loggedIn={this.state.loggedIn} />
           </Switch>
         </div>
       </div>

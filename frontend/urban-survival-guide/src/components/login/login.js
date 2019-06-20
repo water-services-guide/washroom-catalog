@@ -47,8 +47,7 @@ class Login extends Component {
       } else {
         localStorage.setItem('user_id', response.data.User_id);
         localStorage.setItem('username', response.data.Username);
-        console.log(this.props);
-        this.props.refresh("loggedOn", true);
+        this.props.setLoggedIn(true);
       }
     });
   }

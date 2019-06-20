@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import { Button, Header, Menu } from 'semantic-ui-react';
+import { Header, Menu } from 'semantic-ui-react';
 
 class Nav extends Component {
     constructor(props) {
@@ -15,7 +15,7 @@ class Nav extends Component {
     }
 
     style = {
-        'background-color': 'rgb(226, 251, 255)'
+        'backgroundColor': 'rgb(226, 251, 255)'
     }
 
     handleItemClick = (e, { name }) => {
@@ -24,7 +24,7 @@ class Nav extends Component {
 
     handleSignOut = event => {
         localStorage.clear();
-        this.props.refresh("loggedOn", false)
+        this.props.setLoggedIn(false);
     }
 
     render() {
@@ -32,7 +32,7 @@ class Nav extends Component {
             
         if (localStorage.getItem('user_id') !== null) {
             button =
-            <Menu.Item as={Link} name='profile' to='/login' active={activeItem == "profile"} onClick={this.handleSignOut}>
+            <Menu.Item as={Link} name='profile' to='/login' active={activeItem === "profile"} onClick={this.handleSignOut}>
                 <h3>Sign Out</h3>
             </Menu.Item>;
         } else {
@@ -47,11 +47,11 @@ class Nav extends Component {
                         🚽  Urban Survival Guide
                     </Header>
                 </Menu.Item>
-                <Menu.Item as={Link} to='/search' position="right" name="search" active={activeItem == "search"} onClick={this.handleItemClick} >
+                <Menu.Item as={Link} to='/search' position="right" name="search" active={activeItem === "search"} onClick={this.handleItemClick} >
                     <h3>Search</h3>
                 </Menu.Item>
                 <Menu.Item as={Link} to='/admin'
-                    disabled={localStorage.getItem('username') !== "admin"} name="admin" active={activeItem == "admin"}  onClick={this.handleItemClick}>
+                    disabled={localStorage.getItem('username') !== "admin"} name="admin" active={activeItem === "admin"}  onClick={this.handleItemClick}>
                     <h3>Admin</h3>
                 </Menu.Item>
                 {button}
