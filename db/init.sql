@@ -163,7 +163,7 @@ VALUES
   ('User1', 'k7ZGtS'),
   ('User2', '8yHPoJ'),
   ('User3', 'mGmMT6'),
-  ('User4', 'kvJt5e'),
+  ('admin', 'kvJt5e'),
   ('User5', 'uWV7br');
 
 INSERT INTO
