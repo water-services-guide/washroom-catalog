@@ -54,6 +54,8 @@ class NecessitySpecs extends Component {
                     <p>status: {necessity.Status}</p>
                     {necessity.Sex && <p>Sex: {necessity.Sex}</p>}
                     {necessity.Total_stalls && <p>Total Stalls: {necessity.Total_stalls}</p>}
+                    {necessity.Num_fountains && <p>Number of fountains: {necessity.Num_fountains}</p>}
+                    
                 </Segment>
                 <Segment vertical>
                     <h3>Features</h3>

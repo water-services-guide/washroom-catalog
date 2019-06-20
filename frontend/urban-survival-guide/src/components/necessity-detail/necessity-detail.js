@@ -135,7 +135,12 @@ class NecessityDetail extends Component {
         <Grid divided='vertically'>
           <Grid.Row columns={2}>
             <Grid.Column>
-              <CommentGroup data={this.state.data} addComment={this.addComment} necessity_id={this.necessityId}></CommentGroup>
+              <CommentGroup 
+              data={this.state.data} 
+              addComment={this.addComment} 
+              necessity_id={this.necessityId} 
+              type={this.necessityType}
+              ></CommentGroup>
             </Grid.Column>
 
             <Grid.Column>
