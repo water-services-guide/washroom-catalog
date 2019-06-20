@@ -56,6 +56,7 @@ class Login extends Component {
     axios.get(this.API + "getUserIdByUsername?username=" + username).then((response) => {
       if (response.data.User_id === undefined) {
         postUser(this.state.signupUsername, this.state.signupPassword);
+        alert("You have created a new user with username '" + this.state.signupUsername + "'");
       } else {
         alert("Username '" + this.state.signupUsername + "' is already taken. Try another username.");
       }
