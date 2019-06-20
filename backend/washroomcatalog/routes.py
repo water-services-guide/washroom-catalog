@@ -42,7 +42,8 @@ def getNecessityList():
         'type': request.args.get('type'),
         'sex': request.args.get('sex'),
         'fields': request.args.get('fields'),
-        'likedBy': request.args.get('likedBy')
+        'likedBy': request.args.get('likedBy'),
+        'noIncidents': request.args.get('noIncidents')
     }
     return make_response(jsonify(lists.getNecessities(options)))
 

@@ -67,6 +67,14 @@ def getNecessities(options):
                 '''.format(user_id=user_id[0])
             queryOptions.append(queryOption)
 
+    if options['noIncidents'] != None:
+        queryOption = ''
+        noIncidents = options['noIncidents'].split(',')
+        if len(noIncidents) == 1 and noIncidents[0] == 'true':
+            queryOption += '''Necessity_id IN (SELECT DISTINCT Necessity_id FROM Incident)
+                '''
+            queryOptions.append(queryOption)
+
     if len(queryOptions) > 0:
         query += ' WHERE '
         for queryOption in queryOptions:
