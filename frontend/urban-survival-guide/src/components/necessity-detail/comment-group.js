@@ -16,7 +16,7 @@ class CommentGroup extends Component {
     this.state = {
       comment: {
         // change username when we have users setup
-        Username: localStorage.getItem("user_id"),
+        Username: localStorage.getItem("username"),
         Comment: "",
         Date : ""
       }

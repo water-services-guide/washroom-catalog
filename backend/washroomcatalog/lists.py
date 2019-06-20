@@ -219,8 +219,7 @@ def addFavouriteBuilding(user_id, building_id):
     INSERT INTO
     Favourite (Building_id, User_id)
     VALUES
-    ({building_id}, {user_id})
-    """.format(building_id=building_id, user_id=user_id))
+    ({building_id}, {user_id})""".format(building_id=building_id, user_id=user_id))
 
 def removeFavouriteBuilding(user_id, building_id):
     return insert("""

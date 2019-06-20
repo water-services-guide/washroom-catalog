@@ -5,12 +5,13 @@ const endpoint = 'http://localhost:5000/'
 // TODO use local storage here
 const config = {
     headers: {
-        username: "User1",
+        username: localStorage.getItem("username"),
     },
     "crossDomain": true
 }
 
 export function postFavouriteBuilding(necessity_id){
+    config.headers.username = localStorage.getItem("username")
     axios.post(endpoint + "necessity/"+ necessity_id +"/favouritebuilding", {}, config)
     .then(function (response) {
         console.log(response);
@@ -21,6 +22,7 @@ export function postFavouriteBuilding(necessity_id){
 }
 
 export function postLike(necessity_id) {
+    config.headers.username = localStorage.getItem("username")
     axios.post(endpoint + "necessity/"+ necessity_id +"/like", {}, config)
         .then(function (response) {
             console.log(response);
@@ -31,6 +33,7 @@ export function postLike(necessity_id) {
 } 
 
 export function postRating(date, necessity_id, rating){
+    config.headers.username = localStorage.getItem("username")
     axios.post(endpoint + "necessity/"+ necessity_id +"/rating", {
         date: date.toLocaleString('en-US'),
         rating: rating
@@ -44,6 +47,7 @@ export function postRating(date, necessity_id, rating){
 }
 
 export async function getNecessityDetails(type, necessity_id) {
+    config.headers.username = localStorage.getItem("username")
     return new Promise(async function(resolve, reject) {
         let { data } = await axios.get(endpoint + 'necessity/' + type + "/" + necessity_id, config)
         if(data == null) {
@@ -55,6 +59,7 @@ export async function getNecessityDetails(type, necessity_id) {
 
 
 export function postComment(Comment, date, necessity_id) {
+    config.headers.username = localStorage.getItem("username")
         axios.post(endpoint + "necessity/"+ necessity_id +"/comments", {
             date: date.toLocaleString('en-US'),
             comment: Comment

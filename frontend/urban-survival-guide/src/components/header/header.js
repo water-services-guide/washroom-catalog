@@ -6,9 +6,8 @@ class Nav extends Component {
     constructor(props) {
         super(props)
 
-        let username = "admin"
+        // let username = "admin"
         this.state = {
-            username: username,
             activeItem: ""
         }
 
@@ -52,7 +51,7 @@ class Nav extends Component {
                     <h3>Search</h3>
                 </Menu.Item>
                 <Menu.Item as={Link} to='/admin'
-                    disabled={this.state.username !== "admin"} name="admin" active={activeItem == "admin"}  onClick={this.handleItemClick}>
+                    disabled={localStorage.getItem('username') !== "admin"} name="admin" active={activeItem == "admin"}  onClick={this.handleItemClick}>
                     <h3>Admin</h3>
                 </Menu.Item>
                 {button}
